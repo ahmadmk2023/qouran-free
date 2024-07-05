@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="ltr">
   <head>
@@ -1311,7 +1312,57 @@ if ("mediaSession" in navigator) {
   navigator.mediaSession.setActionHandler('pause', toggleAudio);
   navigator.mediaSession.setActionHandler('previoustrack', previous);
   navigator.mediaSession.setActionHandler('nexttrack', next);
-}  
+} 
+
+
+const audioPlayer = document.getElementById('audio-player');
+const playPauseBtn = document.getElementById('play-pause-btn');
+const stopBtn = document.getElementById('stop-btn');
+const remoteControlBtn = document.getElementById('remote-control-btn');
+
+// Play/Pause functionality
+playPauseBtn.addEventListener('click', () => {
+  if (audioPlayer.paused) {
+    audioPlayer.play();
+    playPauseBtn.textContent = 'Pause';
+  } else {
+    audioPlayer.pause();
+    playPauseBtn.textContent = 'Play';
+  }
+});
+
+// Stop functionality
+stopBtn.addEventListener('click', () => {
+  audioPlayer.pause();
+  audioPlayer.currentTime = 0;
+  playPauseBtn.textContent = 'Play';
+});
+
+// Remote control functionality
+let isRemoteControlActive = false;
+remoteControlBtn.addEventListener('click', () => {
+  if (!isRemoteControlActive) {
+    document.addEventListener('keydown', handleRemoteControl);
+    remoteControlBtn.textContent = 'Disable Remote Control';
+  } else {
+    document.removeEventListener('keydown', handleRemoteControl);
+    remoteControlBtn.textContent = 'Remote Control';
+  }
+  isRemoteControlActive = !isRemoteControlActive;
+});
+
+function handleRemoteControl(event) {
+  if (event.key === ' ') {
+    // Space bar to play/pause
+    playPauseBtn.click();
+  } else if (event.key === 's') {
+    // 's' key to stop
+    stopBtn.click();
+  }
+}
+
+
+
 </script>
 
 
