@@ -8,60 +8,18 @@
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <link rel="manifest" href="https://raw.githack.com/ahmadmk2023/code-java/main/manifest.json">
+    
       <link href="https://i.imgur.com/XBPOinp.png" rel="icon" type="image/x-icon">
     <title>MP3القرآن الكريم كاملا</title>
  
   </head>
   <body>
   
-  <script>
-     
-
-
-        loadTrack(currentTrackIndex);
-    // service-worker.js
-
-self.addEventListener('install', (event) => {
-    event.waitUntil(
-        caches.open('your-app-cache').then((cache) => {
-            return cache.addAll([
-                // قائمة الملفات التي تريد تخزينها محلياً
-            ]);
-        })
-    );
-});
-
-self.addEventListener('fetch', (event) => {
-    event.respondWith(
-        caches.match(event.request).then((response) => {
-            return response || fetch(event.request);
-        })
-    );
-});
-// YourForegroundService.java
-
-public class YourForegroundService extends Service {
-    // تنفيذ الخدمة هنا
-}
-
-</script>
-<!-- في ملف HTML -->
-
-<script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('service-worker.js')
-            .then((registration) => {
-                console.log('Service Worker registered with scope:', registration.scope);
-            })
-            .catch((error) => {
-                console.error('Service Worker registration failed:', error);
-            });
-    }
-</script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   
  <!----------  اكواد استايل القائمة  ------------>
     <style>
@@ -88,7 +46,7 @@ z-index: 1;
             float: left;
             color: #ffffff;
             text-align: center;
-            padding: 15px 10px;
+            padding: 11px 10px;
             text-decoration: none;
             font-size: 19px;
         }
@@ -357,7 +315,71 @@ border-left:2px solid #6597e7;
   color: #000; /* لون الأيقونة عند التمرير أو التركيز */
 }
 
+ 
+    #searchbar {
+    margin: 10px;direction: rtl;
+    padding: 10px; 
+    font-size: 19px;
+    font-weight: bold;
+    border-radius: 5px;
+    width: 70%;
+    height: 35px; 
+     margin-top: 10px; /* تترك مساحة للشريط العلوي */
+    margin-bottom: 0px; /
+    border: 2px solid gold;
+    box-sizing: border-box;
+}  
+#playlist-track-ctn {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
 
+.animals {
+    padding: 10px;
+    border: 1px solid #666;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+#searchbar {
+    display: none;
+    margin-left: 10px;
+}
+
+#searchbar.show {
+    display: inline-block;
+}
+
+#searchbar:focus,#searchbar:hover {
+         background: #ccc; /* لون	 خلفية الزر */
+         color: #000 ;
+          border-radius: 5px;
+          outline: none; /* إزالة تأثير الـ focus الافتراضي */
+             border: 2px solid #ff0066;   
+        }
+
+
+
+.animals:last-child {
+    border-bottom: none;
+    color: red;
+    font-weight: bold;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+  .playlist-track-ctn.hidden {
+    display: none !important;
+  } 
 main {
     padding: 10px;
     margin-top: 50px; /* تترك مساحة للشريط العلوي */
@@ -440,7 +462,9 @@ main {
                 
                 
                 <div class="topnav-right">
-                    <a href="http://action_search/"><i class="fa fa-search " style="font-size: 20px;"></i></a>
+<a tabindex="1" href="javascript:void(0)" onclick="toggleSearchBar()">
+    <i class="fa fa-search"></i>
+</a>
                     <!-- ZIR LBAHT-search -->
 
                 </div></div>   
@@ -450,6 +474,14 @@ main {
     المتصفح الخاص بك لا يدعم عنصر الصوت.
   </audio>
   <main>
+  
+  <div align="center" >
+  <a  href="javascript:void(0)"><input id="searchbar" 
+       onkeyup="search_animal()" 
+       type="text" 
+       name="search" 
+       placeholder=" ابحث عن سورة --او رقم سورة..." 
+       tabindex="1"></a></div >
   <div class="player-ctn">
     <div class="music-info">
       <img  src="https://i.imgur.com/ldiBgPN.jpg" alt="Cover Image" id="cover-image">
@@ -661,7 +693,7 @@ function createTrackItem(index,name,duration){
     },
       {
       name:"سورة الإسراء",
-      file:"https://listen.ourquraan.com/Saad_Alghamdi/022-.mp3",
+      file:"https://listen.ourquraan.com/Saad_Alghamdi/022.mp3",
       duration:"22"
     },
        {
@@ -1287,32 +1319,86 @@ file:"https://listen.ourquraan.com/Saad_Alghamdi/100.mp3",
     }
   }
   </script>
+<script>
+// تأكد من تعيين بيانات جلسة الوسائط إذا تم الدعم
+ function updateMediaSessionMetadata(index) {
+      if ("mediaSession" in navigator) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title: listAudio[index].name,
+          artist: "الشيخ أبو بكر الشاطري",
+          album: "حفص عن عاصم",
+          artwork: [
+            { src: "https://i.imgur.com/ldiBgPN.jpg", sizes: "512x512", type: "image/jpeg" }
+          ]
+        });
+
+        navigator.mediaSession.setActionHandler('play', function() {
+          sound.play();
+        });
+
+        navigator.mediaSession.setActionHandler('pause', function() {
+          sound.pause();
+        });
+
+        navigator.mediaSession.setActionHandler('previoustrack', function() {
+          previous();
+        });
+
+        navigator.mediaSession.setActionHandler('nexttrack', function() {
+          next();
+        });
+
+        navigator.mediaSession.playbackState = 'playing';
+      }
+    }
+
+
+    updateMediaSessionMetadata(indexAudio);
+ </script>
 
 <script>
- let isPlaying = false;
-const coverImage = document.getElementById('cover-image');
-const audioPlayer = new Audio("https://server7.mp3quran.net/s_gmd/001.mp3");
+// Définir la fonction toggleSearchBar
+function toggleSearchBar() {
+    let searchbar = document.getElementById('searchbar');
+    searchbar.classList.toggle('show');
+    searchbar.focus();  // Mettre le focus sur la barre de recherche lorsqu'elle est affichée
+}
+
+// Ajouter un écouteur d'événement de clic sur chaque icône de recherche
+document.querySelectorAll('a i.fa-search').forEach(function(element) {
+    element.addEventListener('click', toggleSearchBar);
+});
+
+// Définir la fonction search_animal pour filtrer les boutons
+function search_animal() {
+    let input = document.getElementById('searchbar').value.trim().toLowerCase();
+    let buttons = document.querySelectorAll('.playlist-track-ctn');
+
+    buttons.forEach(button => {
+        let buttonText = button.textContent.toLowerCase();
+        if (buttonText.includes(input)) {
+            button.classList.remove('hidden');
+        } else {
+            button.classList.add('hidden');
+        }
+    });
+}
+
+function searchAnimals() {
+  // Add your search functionality here
+  console.log('Searching for animals...');
+}
+
+document.addEventListener('keydown', function(event) {
+  // Check if the user pressed the 8/58 button on the remote control
+  if (event.key === '8' && event.key === '58') {
+    searchAnimals();
+  }
+});
 
 
-// Ensure media session metadata is set if supported
-if ("mediaSession" in navigator) {
-  navigator.mediaSession.metadata = new MediaMetadata({
-    title: "سورة الفاتحة",
-    artist: "الشيخ سعد الغامدي",
-    album: "حفص عن عاصم",
-    artwork: [
-      { src: "https://i.imgur.com/ldiBgPN.jpg", sizes: "512x512", type: "image/jpeg" }
-    ]
-  });
 
-  navigator.mediaSession.setActionHandler('play', toggleAudio);
-  navigator.mediaSession.setActionHandler('pause', toggleAudio);
-  navigator.mediaSession.setActionHandler('previoustrack', previous);
-  navigator.mediaSession.setActionHandler('nexttrack', next);
-}  
 </script>
-
-
 
 
   </body>
