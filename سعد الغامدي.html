@@ -1,891 +1,1660 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="AR" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script>
+  <title>القرآن الكريم كاملاً MP3 - الشيخ سعد الغامدي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href="https://i.imgur.com/XBPOinp.png" rel="icon" type="image/x-icon">
-    <title>القرآن الكريم كاملاً MP3 - الشيخ سعد الغامدي</title>
-
+      <link href="https://i.imgur.com/3Ewyfx6.png" rel="icon" type="image/x-icon">
     <style>
-        /* الخطوط */
-        @import url('https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Protest+Strike&family=Russo+One&family=Tajawal:wght@300;400;500;700&family=El+Messiri:wght@400;500;700&display=swap');
 
-        /* التنسيقات العامة للجسم */
         body {
             margin: 0;
-            font-family: 'El Messiri', 'Roboto', Arial, sans-serif;
-            background-color: #1a1a1a;
-            color: #ffc266;
-            direction: rtl;
-            overflow: hidden; /* منع التمرير على مستوى الجسم بالكامل */
+            font-family: "Tajawal", sans-serif;
+            font-weight: 300;
+            font-style: normal;
+background: rgba(0, 153, 255, 0.5);            min-height: 100vh; /* Ensure body takes full viewport height */
+            display: flex; /* Make body a flex container */
+            flex-direction: column; /* Stack children vertically by default */
+            align-items: center; /* Center items horizontally */
         }
-        /* شريط التمرير (عام) */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-        ::-webkit-scrollbar-track {
-            box-shadow: inset 0 0 5px grey;
-            border-radius: 7px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background-image: linear-gradient(180deg, #d0368a 0%, #708ad4 99%);
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #b30000;
-        }
-        /* شريط التنقل العلوي */
+
         .topnav {
-            position: fixed;
+            position: relative;
             overflow: hidden;
-            border-radius: 0 0 10px 10px;
-            background-image: linear-gradient(132deg, #2a2a2a 0%, #464646 100%);
-            z-index: 1000;
-            top: 0;
-            height: 60px;
+            border-radius: 4px;
+            height: 58px;
             width: 100%;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 15px;
-            box-sizing: border-box;
+            background-image: linear-gradient(132deg, #3c4a71 0%, #339a8a 100%);
+            box-shadow: 5px 5px 7px #fff;
         }
 
         .topnav a {
+            float: left;
             color: #ffffff;
             text-align: center;
-            padding: 10px 15px;
+            padding: 13px 13px;
             text-decoration: none;
-            font-size: 18px;
-            border-radius: 8px;
-            transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
+            font-size: 16px;
         }
 
         .topnav a:focus,
         .topnav a:hover {
-            background-color: #555;
-            color: #eee;
+            background: #ccc;
+            color: #000;
             outline: none;
+            border: 2px solid #ff0066;
+            border-radius: 8px;
+            box-shadow: 0 0 10px #ff0066, 0 0 20px #ff0066, 0 0 40px #ff0066, 0 0 80px #ff0066, 0 0 160px #ff0066, 0 0 320px #ff0066;
+        }
+
+        .topnav a:focus svg path,
+        .topnav a:hover svg path {
+            fill: #000;
+            outline: none;
+            border-radius: 8px;
             border: 2px solid #ff0066;
         }
 
-        .topnav-centered {
-            flex-grow: 1;
-            text-align: center;
-            font-size: 20px;
-            font-weight: bold;
-            color: #fff;
+        .topnav-centered a {
+            float: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         .topnav-right {
-            display: flex;
+            float: right;
         }
 
-        /* الاستجابة لشاشات الأجهزة المحمولة */
-        @media screen and (max-width: 768px) {
-            .topnav {
-                height: 55px;
-                padding: 0 10px;
+        @media screen and (max-width: 100%) {
+            .topnav a,
+            .topnav-right {
+                float: none;
+                display: block;
             }
-            .topnav a {
-                font-size: 16px;
-                padding: 8px 12px;
-            }
-            .topnav-centered {
-                font-size: 18px;
+
+            .topnav-centered a {
+                position: relative;
+                top: 0;
+                left: 0;
+                transform: none;
+                color: #ffff;
             }
         }
 
-        /* تنسيقات المشغل الرئيسي */
+        /* --- Main content layout --- */
         main {
+            display: flex;
+            flex-direction: column; /* Default: column for small screens */
+            align-items: center; /* Center items horizontally for column layout */
+            width: 100%; /* Take full width of body */
+            max-width: 1200px; /* Limit overall width of content for very large screens */
+            margin-top: 0px; /* Space from topnav */
+            margin-bottom: 20px;
+            gap: 30px; /* Space between player and playlist */
+        }
+
+        /* --- Music Player Styles --- */
+        .music-player {
+            width: 95%; /* Default width for small screens */
+            max-width: 460px; /* Limit max width for music player in column layout */
+            background: linear-gradient(to top left, #66ccff 0%, #222222 100%);
+            border-radius: 15px;
+            font-weight: bold;
+            padding: 0px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 153, 255, 0.8), 0 0 20px rgba(0, 153, 255, 0.5);
+            overflow: hidden;
+            color: white;
+            font-family: 'El Messiri', sans-serif;
+            box-sizing: border-box;
+        }
+
+        .current-track {
             display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative;
-            height: 100vh;
-            overflow: hidden; /* لمنع التمرير على Main */
-        }
-
-        .player-ctn {
-            /* التعديلات الرئيسية لتقليل الارتفاع */
-            height: 165px; /* الارتفاع المطلوب */
-            overflow: hidden; /* لمنع المحتوى من تجاوز الارتفاع المحدد */
-            width: 95%;
-            max-width: 380px; /* تحديد أقصى عرض ليكون أكثر إحكاماً */
-            padding: 8px; /* تقليل التباعد الداخلي */
-           
-            border-radius: 15px;
-            border: 1.5px solid #faa61a;
-            background-image: linear-gradient(to right, #2a2a2a, #0a0a0a);
-            color: #fff;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
-            display: flex;
-            flex-direction: column; /* يبقى عمودياً لتجميع الأقسام (صورة/نص، شريط، أزرار) */
-            align-items: center;
-            position: fixed;
-            top: 10px; /* سيتغير هذا بناءً على ارتفاع الشريط العلوي */
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 999;
-            box-sizing: border-box;
-        }
-
-        /* شريط البحث (موقعه أعلى المشغل) */
-        #searchbar {
-            margin: 0;
-            padding: 8px;
-            font-size: 15px;
+            padding: 5px;margin-top: 1px; /* تترك مساحة للشريط العلوي */
+            margin-bottom: 5px; /* تترك مساحة للقائمة السفلية */
             font-weight: bold;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 320px;
-            border: 1.5px solid gold;
-            background-color: #2a2a2a;
-            color: #fff;
-            box-sizing: border-box;
-            display: none;
-            text-align: right;
-            position: fixed;
-            /* حساب الموضع الجديد لشريط البحث */
-            top: calc(60px + 120px + 10px); /* ارتفاع الـtopnav + ارتفاع المشغل + مسافة */
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 999;
         }
 
-        #searchbar.show {
-            display: block;
-        }
-
-        #searchbar::placeholder {
-            color: #aaa;
-        }
-
-        #searchbar:focus, #searchbar:hover {
-            background: #444;
-            color: #fff;
-            border: 2px solid #ff0066;
-            outline: none;
-        }
-
-        .music-info {
-            /* تغيير الاتجاه ليصبح أفقيًا للصورة والمعلومات */
-            display: flex;
-            flex-direction: row; /* الصورة والمعلومات جنباً إلى جنب */
-            justify-content: flex-start; /* تبدأ من اليمين في RTL */
-            align-items: center;
-            width: 100%; /* تأكد أنها تأخذ العرض الكامل للمشغل */
-            margin-bottom: 5px; /* مسافة بسيطة قبل شريط التقدم */
-            gap: 10px; /* مسافة بين الصورة والمعلومات */
-        }
-
-        #cover-image {
-            width: 60px; /* تصغير حجم الصورة أكثر */
-            height: 60px;
+        .cover {
+            width: 90px;
+            height:90px;
             border-radius: 50%;
-            border: 2px solid #6597e7; /* تصغير سمك الحدود */
-            margin-bottom: 0; /* لا يوجد هامش سفلي */
+            margin-top: 1px; /* تترك مساحة للشريط العلوي */
+            margin-bottom: -5px; /* تترك مساحة للقائمة السفلية */
             object-fit: cover;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            transition: transform 0.5s ease-in-out;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
         }
 
-        #cover-image.rotating {
-            animation: spin 8s linear infinite;
+        .cover.rotating {
+            animation: rotate 10s linear infinite;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .track-info {
-            flex-grow: 1; /* السماح للمعلومات بأخذ المساحة المتبقية */
-            text-align: right; /* محاذاة النص لليمين */
-            margin-top: 0; /* إزالة أي هامش علوي */
-            padding-left: 5px; /* مسافة بسيطة من الصورة */
-        }
-
-        .title {
-            font-size: 15px; /* تصغير حجم الخط */
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 1px; /* تقليل الهامش السفلي */
-            white-space: nowrap; /* منع النص من الانكسار إلى سطر جديد */
-            overflow: hidden; /* إخفاء أي نص زائد */
-            text-overflow: ellipsis; /* إضافة نقاط (...) للنص الزائد */
-        }
-
-        .artist {
-            font-size: 12px; /* تصغير حجم الخط */
-            color: #faa61a;
-            margin-top: 1px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .title1 {
-            font-size: 10px; /* تصغير حجم الخط */
-            color: #6597e7;
-            margin-top: 2px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        /* شريط التقدم */
-        .infos-ctn {
-            width: 100%; /* تأخذ العرض الكامل */
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 5px; /* مسافة بسيطة قبل الأزرار */
-        }
-
-        .timer, .duration {
-            font-size: 10px; /* تصغير حجم الخط للوقت */
-            color: #fff;
-            font-weight: bold;
-            min-width: 35px; /* لضمان عدم تكسر الوقت */
+            flex: 1;
             text-align: center;
         }
 
-        #myProgress {
-            flex-grow: 1;
-            height: 2px; /* شريط تقدم أرفع */
-            background-color: #444;
-            cursor: pointer;
-            border-radius: 10px;
-            margin: 0 4px; /* تقليل الهامش الأفقي */
+        .track-info h2 {
+            font-size: 22px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;  padding: 1px;
+            margin-top: 1px; /* تترك مساحة للشريط العلوي */
+            margin-bottom: -10px; /* تترك مساحة للقائمة السفلية */
         }
 
-        #myBar {
-            width: 0%;
-            height: 100%;
-            background-color: #ff0066;
-            border-radius: 10px;
-        }
-
-        /* أزرار التحكم */
-        .btn-ctn {
-            width: 100%; /* تأخذ العرض الكامل */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 5px; /* تقليل المسافة بين الأزرار أكثر */
-            margin-bottom: 0; /* لا يوجد هامش سفلي */
-        }
-
-        .btn-action, .btn-play, .btn-mute {
-            cursor: pointer;
-            width: 30px; /* تصغير حجم الأزرار أكثر */
-            height: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 50%;
-            background-color: #3d3d3d;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-            transition: background-color 0.3s ease, border 0.3s ease, transform 0.2s ease;
-        }
-
-        .btn-action:active, .btn-play:active, .btn-mute:active {
-            transform: scale(0.9);
-        }
-
-        #remot:focus, #remot:hover {
-            background: #555;
-            border: 2px solid #ff0066;
-            outline: none;
-        }
-
-        #remot i {
+        .track-info p {
+              padding: 1px;
+            margin-top: 1px; /* تترك مساحة للشريط العلوي */
+            margin-bottom: 1px; /* تترك مساحة للقائمة السفلية */
             color: #fff;
-            font-size: 14px; /* تصغير حجم الأيقونات */
-            transition: color 0.3s ease;
+            font-size: 18px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        #remot i:hover, #remot i:focus {
-            color: #ffc266;
-        }
-            
-        /* قائمة السور (أصبحت ثابتة) */
-        .playlist-ctn {
-            position: fixed; /* لتثبيت القائمة */
-            /* حساب الموضع الجديد لقائمة السور */
-            top: calc(60px + 50px + 10px + 40px + 50px); /* ارتفاع الـtopnav + ارتفاع المشغل + مسافة بينهما + ارتفاع شريط البحث + مسافة */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 95%;
-            max-width: 350px; /* نفس عرض المشغل للتناسق */
-            /* حساب الارتفاع الجديد ليملأ المساحة المتبقية */
-            border: 1.5px solid #6597e7;
-            border-radius: 15px;              
-            margin-top: 22px; /* تترك مساحة للشريط العلوي */
-            background-image: linear-gradient(to right, #2a2a2a, #0a0a0a);
-            padding: 10px;
-            overflow-y: auto; /* التمرير فقط داخل هذه القائمة */
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
-            padding-left: 5px; /* مسافة لل scrollbarE */
-            box-sizing: border-box;
-            z-index: 99; /* أقل من المشغل ولكن أعلى من الخلفية */
-        }
-
-        @media screen and (max-width: 768px) {
-            .player-ctn {
-                margin-top: 60px; /* ضبط الهامش العلوي للجوال */
-            }
-            #searchbar {
-                top: calc(55px + 120px + 10px); /* ارتفاع الـtopnav للجوال + ارتفاع المشغل + مسافة */
-            }
-            .playlist-ctn {
-                top: calc(55px + 120px + 10px + 40px + 10px); /* ارتفاع الـtopnav للجوال + ارتفاع المشغل + مسافة + ارتفاع شريط البحث + مسافة */
-                height: calc(100vh - (55px + 120px + 10px + 40px + 10px + 20px)); /* تحديث الارتفاع ليملأ المساحة المتبقية */
-            }
-        }
-
-
-        .playlist-track-ctn {
+        .progress-bar {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            background-color: #333;
-            margin-bottom: 8px;
-            border-radius: 8px;
-            cursor: pointer;
-            padding: 10px 15px;
-            border: 1px solid #4a4a4a;
-            transition: background 0.3s ease, color 0.3s ease, border 0.3s ease;
+            gap: 10px;
+            margin: 15px 0;
+            width: 100%;
         }
 
-        .playlist-track-ctn:hover,
-        .playlist-track-ctn:focus {
-            background: #ff0066;
-            color: #fff;
-            border: 2px solid #ffc266;
-            outline: none;
-        }
-
-        .playlist-track-ctn:last-child {
-            margin-bottom: 0;
-        }
-
-        .playlist-info-track,
-        .playlist-duration {
-            font-size: 15px;
-            color: #eee;
-            pointer-events: none;
-        }
-
-        .active-track {
-            background: #ff0066;
-            color: #fff !important;
-            font-weight: bold;
-            border: 2px solid #ffc266;
-            box-shadow: 0 0 10px rgba(255, 0, 102, 0.5);
-        }
-
-        .playlist-btn-play .fas {
+        .progress-bar .current-time,
+        .progress-bar .total-time {
             font-size: 16px;
-            color: #fff;
+            min-width: 45px;
+            text-align: center;
         }
 
-        .playlist-btn-play {
-            padding-top: 0;
-            padding-bottom: 0;
+        .progress {
+            flex: 1;
+            height: 10px;
+            background-color: #ccc;
+            border-radius: 5px;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .progress-filled {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #d0368a, #708ad4);
+            border-radius: 5px;
+            transition: width 0.1s linear;  padding: 1px;
+            margin-top: 1px; /* تترك مساحة للشريط العلوي */
+            margin-bottom: 0px; /* تترك مساحة للقائمة السفلية */
+        }
+
+        .controls {
             display: flex;
+            justify-content: space-around;
             align-items: center;
-            justify-content: center;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background-color: #555;
-        }
-            
-        .active-track .playlist-btn-play {
-            background-color: #ffc266;
+              padding: 1px;
+
+            width: 100%;
         }
 
-        .active-track .playlist-btn-play .fas {
-            color: #333;
+        .controls button {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 9px;            
+            margin-top: 1px; /* تترك مساحة للشريط العلوي */
+            margin-bottom: 1px; /* تترك مساحة للقائمة السفلية */
+            transition: color 0.3s, transform 0.3s;
         }
 
-        /* شريط التمرير الخاص بالقائمة */
-        ::-webkit-scrollbar {
+        button:hover {
+            color: #66ccff;
+            transform: scale(1.1);
+        }
+
+        button:focus {
+            color: #ff0066;
+            transform: scale(1.1);
+            outline: 2px solid #ff0066;
+            border-radius: 5px;
+        }
+
+        button:hover svg path {
+            fill: #66ccff;
+        }
+
+        button:focus svg path {
+            fill: #ff0066;
+        }
+
+        /* ACTIVE STATE FOR SHUFFLE AND REPEAT BUTTONS */
+        .controls button.active {
+            background:#d0368a; /* لون جذاب للخلفية */
+            color: #fff; /* لون النص أو الأيقونة */
+            border-radius: 8px;
+            outline: none;
+            border: 2px solid #fff; /* حدود داكنة */
+        }
+        .controls button.active svg path {
+            fill: #fff; /* لون أيقونة الزر عندما يكون نشطًا */
+        }
+
+
+        /* --- Playlist Styles --- */
+        .playlist-container {
+            width: 90%; /* Default width for small screens */
+            max-width: 400px; /* Limit max width for playlist in column layout */
+            text-transform: uppercase;
+            box-sizing: border-box;
+        }
+
+        .playlist {
+            background:#dddddd85;
+            padding: 7px;
+             border: 2px solid #fff;
+            border-radius: 8px;
+            overflow-y: auto;
+            max-height: 400px;
+            font-size: 16px;
+            font-weight: 500;            
+            margin-bottom: 20px;           
+            color: #fff;
+            font-family: 'El Messiri', sans-serif;
+        }
+
+        .playlist::-webkit-scrollbar {
             width: 8px;
         }
 
-        ::-webkit-scrollbar-track {
-            background: #2a2a2a;
-            border-radius: 10px;
+        .playlist::-webkit-scrollbar-track {
+            background: #ccc;
+            border-radius: 8px;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background-image: linear-gradient(180deg, #ff0066 0%, #faa61a 99%);
-            border-radius: 10px;
+        .playlist::-webkit-scrollbar-thumb {
+            background: #444;
+            border-radius: 8px;
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background-image: linear-gradient(180deg, #ff3388 0%, #ffbb44 99%);
+        .track {
+            display: flex; /* Make track a flex container */
+            align-items: center; /* Vertically center items */
+            justify-content: space-between; /* Distribute space between items */
+            padding: 1px;
+            cursor: pointer;
+            border-radius: 8px;
+            border-top: 2px solid #fff;
+            margin-top: 2px;            
+            margin-bottom: 2px;           
+            background: transition;
+            transition: background 0.3s, border-color 0.3s;
         }
 
-        .playlist-track-ctn.hidden {
-            display: none !important;
+        .track:last-child {
+            margin-bottom: 0;
         }
+
+        .track img {
+            width: 45px;
+            height: 45px;
+            border-radius: 5px;
+            /* margin-right: 15px; Removed for new layout */
+            object-fit: cover;
+            flex-shrink: 0; /* Prevent shrinking */
+            order: 3; /* Order for flexbox: image on the left (last visually in RTL) */
+        }
+
+        .track-details {
+            flex: 1; /* Allow track details to take available space */
+            text-align: center; /* Center text for artist/title */
+            margin: 0 10px; /* Add horizontal margin */
+            min-width: 0; /* Allow text to truncate */
+            order: 2; /* Order for flexbox: details in the middle */
+        }
+
+        .track-details h3 {
+            margin: 0;
+            font-size: 18px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #000; /* Ensure title is visible */
+        }
+
+        .track-details p {
+            margin: 1px 0 0;
+            color: #000;
+            font-size: 15px;
+            white-space: nowrap;
+            overflow: hidden;
+          
+            text-overflow: ellipsis;
+        }
+
+        .track-number {
+            /* margin-left: 15px; Removed for new layout */
+            text-align: center;
+            color: #fff;
+            font-size: 16px;
+            background: #ff0066;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            order: 1; /* Order for flexbox: number on the right */
+        }
+
+        .track.active {
+            background: linear-gradient(to top right, #00ff99 0%, #99ffcc 100%);
+            color: #000;
+            border-color: #000;
+        }
+
+        .track:focus {
+            background: #ff0066;
+            color: #fff;
+            outline: none;
+            border-color: #ff0066;
+        }
+
+        .track:hover {
+            background: #66ccff;
+            color: #000;
+            border-color: #ff0066;
+        }
+
+        /* --- Responsive adjustments for larger screens --- */
+        @media (min-width: 768px) {
+            main {
+                flex-direction: row; /* Change to row for large screens */
+                align-items: center; /* VERTICALLY CENTER items for row layout */
+                justify-content: center; /* Center the two main flex items */
+                gap: 40px; /* Increase gap between player and playlist */
+            }
+
+            .music-player {
+                width: 40%; /* Take 40% of main's width */
+                max-width: 400px; /* Max width for player in row layout */
+                margin: 0; /* Remove auto margins when in row */
+            }
+
+            .playlist-container {
+                width: 60%; /* Take 60% of main's width */
+                max-width: 600px; /* Max width for playlist in row layout */
+                margin: 0; /* Remove auto margins when in row */
+            }
+
+            .playlist {
+                max-height: 500px; /* Allow more height for playlist on large screens */
+            }
+
+            .track-details h3 {
+                text-align: right; /* Revert text alignment for title on larger screens */
+            }
+        }
+
+        /* General adjustments for very small screens (phones) */
+        @media (max-width: 480px) {
+            .music-player, .playlist-container {
+                width: 95%; /* Take more width on very small screens */
+                padding: 10px;
+            }
+
+            .cover {
+                width: 80px;
+                height: 80px;
+            }
+
+            .track-info h2 {
+                font-size: 18px;
+            }
+
+            .track-info p {
+                font-size: 14px;
+            }
+
+            .controls button {
+                font-size: 22px;
+                padding: 4px;
+            }
+
+            .track img {
+                width: 30px;
+                height: 30px;
+                margin-right: 8px; /* Keep some margin on small screens */
+            }
+
+            .track-details h3 {
+                font-size: 14px;
+            }
+
+            .track-details p {
+                font-size: 12px;
+            }
+
+            .track-number {
+                width: 25px;
+                height: 25px;
+                font-size: 12px;
+                margin-left: 8px; /* Keep some margin on small screens */
+            }
+        }
+          /* شريط البحث */
+        #searchbar-container {
+            position: relative;
+            width: 90%; /* زيادة العرض ليتناسب مع الشاشات المختلفة */
+            max-width: 600px; /* تحديد أقصى عرض */
+            margin: 15px auto;
+            direction: rtl;
+            display: flex; /* لجعل الزر X بجانب شريط البحث */
+            align-items: center;
+        }
+
+        #searchbar {
+            width: 100%;
+            padding: 10px 15px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 5px;
+            height: 40px; /* ارتفاع مناسب */
+            border: 2px solid gold;
+            box-sizing: border-box;
+            display: none; /* إخفاء في البداية */
+            color: #333; /* لون النص داخل شريط البحث */
+            background-color: #f0f0f0;
+            transition: all 0.3s ease;
+        }
+
+        #searchbar:focus,
+        #searchbar:hover {
+            background: #fff;
+            color: #000;
+            border-color: #ff0066;
+            box-shadow: 0 0 10px #ff0066, 0 0 20px #ff0066;
+        }
+
+        #searchbar.show {
+            display: block; /* إظهار الشريط */
+        }
+
+        #close-icon {
+            background: #111;
+            color: #fff; /* لون أيقونة الإغلاق */
+            border: 2px solid #000;
+            border-radius: 5px;
+            box-shadow: 0 0 5px #fff;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 8px 10px;
+            margin-right: 5px; /* مسافة بين شريط البحث و زر الإغلاق */
+            display: none; /* إخفاء في البداية */
+            transition: all 0.3s ease;
+        }
+
+        #close-icon:focus,
+        #close-icon:hover {
+            background: #222;
+            color: #ff0066;
+            border-color: #ff0066;
+            box-shadow: 0 0 10px #ff0066;
+        }
+
+        #close-icon.show {
+            display: block;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #no-results-message {
+            color: red;
+            font-family: 'Cairo', sans-serif;
+            margin-top: 20px;
+            font-size: 25px;
+            font-weight: bold;
+            text-align: center;
+        }
+
     </style>
 </head>
 <body>
-
     <div class="topnav">
-        <a href="go:01"><i class="fa fa-reply" style="font-size: 22px;"></i></a>
         <div class="topnav-centered">
-            <a><h5>سعد الغامدي</h5></a>
+            <a><h4>سعد الغامدي</h4></a>
         </div>
-        <div class="topnav-right">
-            <a tabindex="1" href="javascript:void(0)" onclick="toggleSearchBar()">
-                <i class="fa fa-search"></i>
-            </a>
+<a onclick="history.back()" tabindex="0" title="الرجوع" role="button">
+    <svg width="25" height="20" fill="#fff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+        <path d="M209.4 39.5c-9.1-9.6-24.3-10-33.9-.9L33.8 173.2c-19.9 18.9-19.9 50.7 0 69.6L175.5 377.4c9.6 9.1 24.8 8.7 33.9-.9s8.7-24.8-.9-33.9L66.8 208 208.5 73.4c9.6-9.1 10-24.3 .9-33.9zM352 64c0-12.6-7.4-24.1-19-29.2s-25-3-34.4 5.4l-160 144c-6.7 6.1-10.6 14.7-10.6 23.8s3.9 17.7 10.6 23.8l160 144c9.4 8.5 22.9 10.6 34.4 5.4s19-16.6 19-29.2l0-64 32 0c53 0 96 43 96 96c0 30.4-12.8 47.9-22.2 56.7c-5.5 5.1-9.8 12-9.8 19.5c0 10.9 8.8 19.7 19.7 19.7c2.8 0 5.6-.6 8.1-1.9C494.5 467.9 576 417.3 576 304c0-97.2-78.8-176-176-176l-48 0 0-64z"></path>
+    </svg>
+</a>
+        <a>
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="24px" viewBox="0 0 24 24" height="24px" preserveAspectRatio="xMidYMid meet">
+                <path d="M18 4l2 3h-3l-2-3h-2l2 3h-3l-2-3H8l2 3H7L5 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4m-6.75 11.25L10 18l-1.25-2.75L6 14l2.75-1.25L10 10l1.25 2.75L14 14l-2.75 1.25m5.69-3.31L16 14l-.94-2.06L13 11l2.06-.94L16 8l.94 2.06L19 11l-2.06.94z" fill="#fff"></path>
+            </svg>
+        </a>
+   <!-- icon-search -->                
+<div class="topnav-right">
+<a tabindex="1" href="javascript:void(0)" id="search-icon"><svg enable-background="new 0 0 32 32" id="Glyph" version="1.1" width="25" height="25" viewBox="0 0 32 32" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <path fill="#fff" stroke-width="4" d="M27.414,24.586l-5.077-5.077C23.386,17.928,24,16.035,24,14c0-5.514-4.486-10-10-10S4,8.486,4,14  s4.486,10,10,10c2.035,0,3.928-0.614,5.509-1.663l5.077,5.077c0.78,0.781,2.048,0.781,2.828,0  C28.195,26.633,28.195,25.367,27.414,24.586z M7,14c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S7,17.86,7,14z" id="XMLID_223_"></path>
+            </svg></a>
+            
         </div>
     </div>
-
-    <audio id="myAudio" ontimeupdate="onTimeUpdate()">
-        <source id="source-audio" src="" type="audio/mpeg">
-        متصفحك لا يدعم عنصر الصوت.
-    </audio>
-
+    <div align="center" id="searchbar-container">
+    <input id="searchbar" 
+           onkeyup="search_animal();" 
+           type="text" 
+           name="search" 
+           placeholder="ابحث عن سور " 
+           tabindex="1">
+<button tabindex="1"id="close-icon"class="x">❌</button></div>
     <main>
-        <div align="center">
-            <input id="searchbar" onkeyup="search_surah()" type="text" name="search"
-                placeholder=" ابحث عن سورة -- أو رقم سورة..." tabindex="1">
-        </div>
-
-        <div class="player-ctn">
-            <div class="music-info">
-                <img src="https://i.imgur.com/ldiBgPN.jpg" alt="Cover Image" id="cover-image">
+    
+        <div class="music-player">
+            <div class="current-track" tabindex="0">
+                <img src="https://i.imgur.com/sRnoAtR.jpeg" alt="Album Cover" class="cover">
                 <div class="track-info">
-                    <h2 class="title" id="track-title">سورة الفاتحة</h2>
-                    <center><span class="artist" id="track-artist">الشيخ سعد الغامدي</span></center>
-                    <h5 class="title1">حفص عن عاصم</h5>
-                </div>
-            </div>
-
-            <div class="infos-ctn">
-                <div class="timer">00:00</div>
-                <div id="myProgress">
-                    <div id="myBar"></div>
-                </div>
-                <div class="duration">00:00</div>
-            </div>
-
-            <div class="btn-ctn">
-                <div class="btn-action first-btn" id="remot" tabindex="1" onclick="previous()">
-                    <div id="btn-faws-back">
-                        <i class='fas fa-step-backward'></i>
+                    <h2>koran</h2>
+                    <p>Royalty</p>
+                    <div class="progress-bar">
+                        <span class="current-time">0:00</span>
+                        <div class="progress">
+                            <div class="progress-filled"></div>
+                        </div>
+                        <span class="total-time">0:00</span>
                     </div>
-                </div>
-                <div class="btn-action" id="remot" tabindex="1" onclick="rewind()">
-                    <div id="btn-faws-rewind">
-                        <i class='fas fa-backward'></i>
-                    </div>
-                </div>
-                <div class="btn-action" id="remot" tabindex="1" onclick="toggleAudio()">
-                    <div id="btn-faws-play-pause">
-                        <i class='fas fa-play' id="icon-play"></i>
-                        <i class='fas fa-pause' id="icon-pause" style="display: none"></i>
-                    </div>
-                </div>
-                <div class="btn-play" id="remot" tabindex="1" onclick="forward()">
-                    <div id="btn-faws-forward">
-                        <i class='fas fa-forward'></i>
-                    </div>
-                </div>
-                <div class="btn-action" id="remot" tabindex="1" onclick="next()">
-                    <div id="btn-faws-next">
-                        <i class='fas fa-step-forward'></i>
-                    </div>
-                </div>
-                <div class="btn-mute" id="remot" tabindex="1" id="toggleMute" onclick="toggleMute()">
-                    <div id="btn-faws-volume">
-                        <i id="icon-vol-up" class='fas fa-volume-up'></i>
-                        <i id="icon-vol-mute" class='fas fa-volume-mute' style="display: none"></i>
+                    <div class="controls">
+<button class="shuffle" id="shuffle-btn" tabindex="0">
+    <svg height="25px" width="25px" fill="#fff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <path d="M403.8 34.4c12-5 25.7-2.2 34.9 6.9l64 64c6 6 9.4 14.1 9.4 22.6s-3.4 16.6-9.4 22.6l-64 64c-9.2 9.2-22.9 11.9-34.9 6.9s-19.8-16.6-19.8-29.6l0-32-32 0c-10.1 0-19.6 4.7-25.6 12.8L284 229.3 244 176l31.2-41.6C293.3 110.2 321.8 96 352 96l32 0 0-32c0-12.9 7.8-24.6 19.8-29.6zM164 282.7L204 336l-31.2 41.6C154.7 401.8 126.2 416 96 416l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l64 0c10.1 0 19.6-4.7 25.6-12.8L164 282.7zm274.6 188c-9.2 9.2-22.9 11.9-34.9 6.9s-19.8-16.6-19.8-29.6l0-32-32 0c-30.2 0-58.7-14.2-76.8-38.4L121.6 172.8c-6-8.1-15.5-12.8-25.6-12.8l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l64 0c30.2 0 58.7 14.2 76.8 38.4L326.4 339.2c6 8.1 15.5 12.8 25.6 12.8l32 0 0-32c0-12.9 7.8-24.6 19.8-29.6s25.7-2.2 34.9 6.9l64 64c6 6 9.4 14.1 9.4 22.6s-3.4 16.6-9.4 22.6l-64 64z"></path>
+    </svg>
+</button>
+                        <button class="seek-backward" tabindex="0">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff">
+                                <path d="M480-80q-75 0-140.5-28.5t-114-77q-48.5-48.5-77-114T120-440h80q0 117 81.5 198.5T480-160q117 0 198.5-81.5T760-440q0-117-81.5-198.5T480-720h-6l62 62-56 58-160-160 160-160 56 58-62 62h6q75 0 140.5 28.5t114 77q48.5 48.5 77 114T840-440q0 75-28.5 140.5t-77 114q-48.5 48.5-114 77T480-80ZM360-320v-180h-60v-60h120v240h-60Zm140 0q-17 0-28.5-11.5T460-360v-160q0-17 11.5-28.5T500-560h80q17 0 28.5 11.5T620-520v160q0 17-11.5 28.5T580-320h-80Zm20-60h40v-120h-40v120Z"></path>
+                            </svg>
+                        </button>
+                        <button class="prev" tabindex="0">
+                            <svg height="25px" width="25px" fill="#fff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                <path d="M267.5 440.6c9.5 7.9 22.8 9.7 34.1 4.4s18.4-16.6 18.4-29l0-320c0-12.4-7.2-23.7-18.4-29s-24.5-3.6-34.1 4.4l-192 160L64 241 64 96c0-17.7-14.3-32-32-32S0 78.3 0 96L0 416c0 17.7 14.3 32 32 32s32-14.3 32-32l0-145 11.5 9.6 192 160z"></path>
+                            </svg>
+                        </button>
+                        <button class="play-pause" tabindex="0">
+                            <svg height="25px" width="25px" fill="#fff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                                <path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80L0 432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"></path>
+                            </svg>
+                        </button>
+                        <button class="next" tabindex="0">
+                            <svg height="25px" width="25px" fill="#fff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                <path d="M52.5 440.6c-9.5 7.9-22.8 9.7-34.1 4.4S0 428.4 0 416L0 96C0 83.6 7.2 72.3 18.4 67s24.5-3.6 34.1 4.4l192 160L256 241l0-145c0-17.7 14.3-32 32-32s32 14.3 32 32l0 320c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-145-11.5 9.6-192 160z"></path>
+                            </svg>
+                        </button>
+                        <button class="seek-forward" tabindex="0">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff">
+                                <path d="M360-320v-180h-60v-60h120v240h-60Zm140 0q-17 0-28.5-11.5T460-360v-160q0-17 11.5-28.5T500-560h80q17 0 28.5 11.5T620-520v160q0 17-11.5 28.5T580-320h-80Zm20-60h40v-120h-40v120ZM480-80q-75 0-140.5-28.5t-114-77q-48.5-48.5-77-114T120-440q0-75 28.5-140.5t77-114q48.5-48.5 114-77T480-800h6l-62-62 56-58 160 160-160 160-56-58 62-62h-6q-117 0-198.5 81.5T200-440q0 117 81.5 198.5T480-160q117 0 198.5-81.5T760-440h80q0 75-28.5 140.5t-77 114q-48.5 48.5-114 77T480-80Z"></path>
+                            </svg>
+                        </button>
+  
+                        <button class="repeat" tabindex="0">
+    <svg xmlns="http://www.w3.org/2000/svg" height="27px" viewBox="0 -960 960 960" width="27px" fill="#fff">
+        <path d="M480-160q-137 0-233.5-96.5T160-480q0-137 96.5-233.5T480-810q137 0 233.5 96.5T810-480q0 46-13.5 87T758-316l-58-58q12-23 18-48t6-58q0-104-73-177t-177-73q-104 0-177 73t-73 177q0 104 73 177t177 73h80v80H480Zm0 80q170 0 285-115T880-480q0-170-115-285T480-880q-170 0-285 115T80-480q0 86 39.5 161T221-196l-61 61q-16 16-15.5 38.5t16.5 39.5q17 17 39.5 16.5T240-62l61-61q35 29 74.5 45T480-80ZM480-320v-180h-60v-60h120v240h-60Z"/>
+    </svg>
+</button>
+                        
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="playlist-ctn" tabindex="1"></div>
-
-        </main>
+         <h1 id="no-results" style="display: none; color: red; text-align: center; font-size: 20px; font-weight: bold;">لم يتم العثور على نتائج⚠️</h1>
+        <div class="playlist-container">
+            <div class="playlist">
+                </div>
+        </div>
+      
+  
+    </main>
+    <audio id="audio-player" tabindex="0"></audio>
 
     <script>
-        // تعريف قائمة السور
-        var listAudio = [
-            { name: "سورة الفاتحة", file: "https://listen.ourquraan.com/Saad_Alghamdi/001.mp3", surah_number: "001" },
-            { name: "سورة البقرة", file: "https://listen.ourquraan.com/Saad_Alghamdi/002.mp3", surah_number: "002" },
-            { name: "سورة آل عمران", file: "https://listen.ourquraan.com/Saad_Alghamdi/003.mp3", surah_number: "003" },
-            { name: "سورة النساء", file: "https://listen.ourquraan.com/Saad_Alghamdi/004.mp3", surah_number: "004" },
-            { name: "سورة المائدة", file: "https://listen.ourquraan.com/Saad_Alghamdi/005.mp3", surah_number: "005" },
-            { name: "سورة الأنعام", file: "https://listen.ourquraan.com/Saad_Alghamdi/006.mp3", surah_number: "006" },
-            { name: "سورة الأعراف", file: "https://listen.ourquraan.com/Saad_Alghamdi/007.mp3", surah_number: "007" },
-            { name: "سورة الأنفال", file: "https://listen.ourquraan.com/Saad_Alghamdi/008.mp3", surah_number: "008" },
-            { name: "سورة التوبة", file: "https://listen.ourquraan.com/Saad_Alghamdi/009.mp3", surah_number: "009" },
-            { name: "سورة يونس", file: "https://listen.ourquraan.com/Saad_Alghamdi/010.mp3", surah_number: "010" },
-            { name: "سورة هود", file: "https://listen.ourquraan.com/Saad_Alghamdi/011.mp3", surah_number: "011" },
-            { name: "سورة يوسف", file: "https://listen.ourquraan.com/Saad_Alghamdi/012.mp3", surah_number: "012" },
-            { name: "سورة الرعد", file: "https://listen.ourquraan.com/Saad_Alghamdi/013.mp3", surah_number: "013" },
-            { name: "سورة إبراهيم", file: "https://listen.ourquraan.com/Saad_Alghamdi/014.mp3", surah_number: "014" },
-            { name: "سورة الحجر", file: "https://listen.ourquraan.com/Saad_Alghamdi/015.mp3", surah_number: "015" },
-            { name: "سورة النحل", file: "https://listen.ourquraan.com/Saad_Alghamdi/016.mp3", surah_number: "016" },
-            { name: "سورة الإسراء", file: "https://listen.ourquraan.com/Saad_Alghamdi/017.mp3", surah_number: "017" },
-            { name: "سورة الكهف", file: "https://listen.ourquraan.com/Saad_Alghamdi/018.mp3", surah_number: "018" },
-            { name: "سورة مريم", file: "https://listen.ourquraan.com/Saad_Alghamdi/019.mp3", surah_number: "019" },
-            { name: "سورة طه", file: "https://listen.ourquraan.com/Saad_Alghamdi/020.mp3", surah_number: "020" },
-            { name: "سورة الأنبياء", file: "https://listen.ourquraan.com/Saad_Alghamdi/021.mp3", surah_number: "021" },
-            { name: "سورة الحج", file: "https://listen.ourquraan.com/Saad_Alghamdi/022.mp3", surah_number: "022" },
-            { name: "سورة المؤمنون", file: "https://listen.ourquraan.com/Saad_Alghamdi/023.mp3", surah_number: "023" },
-            { name: "سورة النور", file: "https://listen.ourquraan.com/Saad_Alghamdi/024.mp3", surah_number: "024" },
-            { name: "سورة الفرقان", file: "https://listen.ourquraan.com/Saad_Alghamdi/025.mp3", surah_number: "025" },
-            { name: "سورة الشعراء", file: "https://listen.ourquraan.com/Saad_Alghamdi/026.mp3", surah_number: "026" },
-            { name: "سورة النمل", file: "https://listen.ourquraan.com/Saad_Alghamdi/027.mp3", surah_number: "027" },
-            { name: "سورة القصص", file: "https://listen.ourquraan.com/Saad_Alghamdi/028.mp3", surah_number: "028" },
-            { name: "سورة العنكبوت", file: "https://listen.ourquraan.com/Saad_Alghamdi/029.mp3", surah_number: "029" },
-            { name: "سورة الروم", file: "https://listen.ourquraan.com/Saad_Alghamdi/030.mp3", surah_number: "030" },
-            { name: "سورة لقمان", file: "https://listen.ourquraan.com/Saad_Alghamdi/031.mp3", surah_number: "031" },
-            { name: "سورة السجدة", file: "https://listen.ourquraan.com/Saad_Alghamdi/032.mp3", surah_number: "032" },
-            { name: "سورة الأحزاب", file: "https://listen.ourquraan.com/Saad_Alghamdi/033.mp3", surah_number: "033" },
-            { name: "سورة سبأ", file: "https://listen.ourquraan.com/Saad_Alghamdi/034.mp3", surah_number: "034" },
-            { name: "سورة فاطر", file: "https://listen.ourquraan.com/Saad_Alghamdi/035.mp3", surah_number: "035" },
-            { name: "سورة يس", file: "https://listen.ourquraan.com/Saad_Alghamdi/036.mp3", surah_number: "036" },
-            { name: "سورة الصافات", file: "https://listen.ourquraan.com/Saad_Alghamdi/037.mp3", surah_number: "037" },
-            { name: "سورة ص", file: "https://listen.ourquraan.com/Saad_Alghamdi/038.mp3", surah_number: "038" },
-            { name: "سورة الزمر", file: "https://listen.ourquraan.com/Saad_Alghamdi/039.mp3", surah_number: "039" },
-            { name: "سورة غافر", file: "https://listen.ourquraan.com/Saad_Alghamdi/040.mp3", surah_number: "040" },
-            { name: "سورة فصلت", file: "https://listen.ourquraan.com/Saad_Alghamdi/041.mp3", surah_number: "041" },
-            { name: "سورة الشورى", file: "https://listen.ourquraan.com/Saad_Alghamdi/042.mp3", surah_number: "042" },
-            { name: "سورة الزخرف", file: "https://listen.ourquraan.com/Saad_Alghamdi/043.mp3", surah_number: "043" },
-            { name: "سورة الدخان", file: "https://listen.ourquraan.com/Saad_Alghamdi/044.mp3", surah_number: "044" },
-            { name: "سورة الجاثية", file: "https://listen.ourquraan.com/Saad_Alghamdi/045.mp3", surah_number: "045" },
-            { name: "سورة الأحقاف", file: "https://listen.ourquraan.com/Saad_Alghamdi/046.mp3", surah_number: "046" },
-            { name: "سورة محمد", file: "https://listen.ourquraan.com/Saad_Alghamdi/047.mp3", surah_number: "047" },
-            { name: "سورة الفتح", file: "https://listen.ourquraan.com/Saad_Alghamdi/048.mp3", surah_number: "048" },
-            { name: "سورة الحجرات", file: "https://listen.ourquraan.com/Saad_Alghamdi/049.mp3", surah_number: "049" },
-            { name: "سورة ق", file: "https://listen.ourquraan.com/Saad_Alghamdi/050.mp3", surah_number: "050" },
-            { name: "سورة الذاريات", file: "https://listen.ourquraan.com/Saad_Alghamdi/051.mp3", surah_number: "051" },
-            { name: "سورة الطور", file: "https://listen.ourquraan.com/Saad_Alghamdi/052.mp3", surah_number: "052" },
-            { name: "سورة النجم", file: "https://listen.ourquraan.com/Saad_Alghamdi/053.mp3", surah_number: "053" },
-            { name: "سورة القمر", file: "https://listen.ourquraan.com/Saad_Alghamdi/054.mp3", surah_number: "054" },
-            { name: "سورة الرحمن", file: "https://listen.ourquraan.com/Saad_Alghamdi/055.mp3", surah_number: "055" },
-            { name: "سورة الواقعة", file: "https://listen.ourquraan.com/Saad_Alghamdi/056.mp3", surah_number: "056" },
-            { name: "سورة الحديد", file: "https://listen.ourquraan.com/Saad_Alghamdi/057.mp3", surah_number: "057" },
-            { name: "سورة المجادلة", file: "https://listen.ourquraan.com/Saad_Alghamdi/058.mp3", surah_number: "058" },
-            { name: "سورة الحشر", file: "https://listen.ourquraan.com/Saad_Alghamdi/059.mp3", surah_number: "059" },
-            { name: "سورة الممتحنة", file: "https://listen.ourquraan.com/Saad_Alghamdi/060.mp3", surah_number: "060" },
-            { name: "سورة الصف", file: "https://listen.ourquraan.com/Saad_Alghamdi/061.mp3", surah_number: "061" },
-            { name: "سورة الجمعة", file: "https://listen.ourquraan.com/Saad_Alghamdi/062.mp3", surah_number: "062" },
-            { name: "سورة المنافقون", file: "https://listen.ourquraan.com/Saad_Alghamdi/063.mp3", surah_number: "063" },
-            { name: "سورة التغابن", file: "https://listen.ourquraan.com/Saad_Alghamdi/064.mp3", surah_number: "064" },
-            { name: "سورة الطلاق", file: "https://listen.ourquraan.com/Saad_Alghamdi/065.mp3", surah_number: "065" },
-            { name: "سورة التحريم", file: "https://listen.ourquraan.com/Saad_Alghamdi/066.mp3", surah_number: "066" },
-            { name: "سورة الملك", file: "https://listen.ourquraan.com/Saad_Alghamdi/067.mp3", surah_number: "067" },
-            { name: "سورة القلم", file: "https://listen.ourquraan.com/Saad_Alghamdi/068.mp3", surah_number: "068" },
-            { name: "سورة الحاقة", file: "https://listen.ourquraan.com/Saad_Alghamdi/069.mp3", surah_number: "069" },
-            { name: "سورة المعارج", file: "https://listen.ourquraan.com/Saad_Alghamdi/070.mp3", surah_number: "070" },
-            { name: "سورة نوح", file: "https://listen.ourquraan.com/Saad_Alghamdi/071.mp3", surah_number: "071" },
-            { name: "سورة الجن", file: "https://listen.ourquraan.com/Saad_Alghamdi/072.mp3", surah_number: "072" },
-            { name: "سورة المزمل", file: "https://listen.ourquraan.com/Saad_Alghamdi/073.mp3", surah_number: "073" },
-            { name: "سورة المدثر", file: "https://listen.ourquraan.com/Saad_Alghamdi/074.mp3", surah_number: "074" },
-            { name: "سورة القيامة", file: "https://listen.ourquraan.com/Saad_Alghamdi/075.mp3", surah_number: "075" },
-            { name: "سورة الإنسان", file: "https://listen.ourquraan.com/Saad_Alghamdi/076.mp3", surah_number: "076" },
-            { name: "سورة المرسلات", file: "https://listen.ourquraan.com/Saad_Alghamdi/077.mp3", surah_number: "077" },
-            { name: "سورة النبأ", file: "https://listen.ourquraan.com/Saad_Alghamdi/078.mp3", surah_number: "078" },
-            { name: "سورة النازعات", file: "https://listen.ourquraan.com/Saad_Alghamdi/079.mp3", surah_number: "079" },
-            { name: "سورة عبس", file: "https://listen.ourquraan.com/Saad_Alghamdi/080.mp3", surah_number: "080" },
-            { name: "سورة التكوير", file: "https://listen.ourquraan.com/Saad_Alghamdi/081.mp3", surah_number: "081" },
-            { name: "سورة الانفطار", file: "https://listen.ourquraan.com/Saad_Alghamdi/082.mp3", surah_number: "082" },
-            { name: "سورة المطففين", file: "https://listen.ourquraan.com/Saad_Alghamdi/083.mp3", surah_number: "083" },
-            { name: "سورة الانشقاق", file: "https://listen.ourquraan.com/Saad_Alghamdi/084.mp3", surah_number: "084" },
-            { name: "سورة البروج", file: "https://listen.ourquraan.com/Saad_Alghamdi/085.mp3", surah_number: "085" },
-            { name: "سورة الطارق", file: "https://listen.ourquraan.com/Saad_Alghamdi/086.mp3", surah_number: "086" },
-            { name: "سورة الأعلى", file: "https://listen.ourquraan.com/Saad_Alghamdi/087.mp3", surah_number: "087" },
-            { name: "سورة الغاشية", file: "https://listen.ourquraan.com/Saad_Alghamdi/088.mp3", surah_number: "088" },
-            { name: "سورة الفجر", file: "https://listen.ourquraan.com/Saad_Alghamdi/089.mp3", surah_number: "089" },
-            { name: "سورة البلد", file: "https://listen.ourquraan.com/Saad_Alghamdi/090.mp3", surah_number: "090" },
-            { name: "سورة الشمس", file: "https://listen.ourquraan.com/Saad_Alghamdi/091.mp3", surah_number: "091" },
-            { name: "سورة الليل", file: "https://listen.ourquraan.com/Saad_Alghamdi/092.mp3", surah_number: "092" },
-            { name: "سورة الضحى", file: "https://listen.ourquraan.com/Saad_Alghamdi/093.mp3", surah_number: "093" },
-            { name: "سورة الشرح", file: "https://listen.ourquraan.com/Saad_Alghamdi/094.mp3", surah_number: "094" },
-            { name: "سورة التين", file: "https://listen.ourquraan.com/Saad_Alghamdi/095.mp3", surah_number: "095" },
-            { name: "سورة العلق", file: "https://listen.ourquraan.com/Saad_Alghamdi/096.mp3", surah_number: "096" },
-            { name: "سورة القدر", file: "https://listen.ourquraan.com/Saad_Alghamdi/097.mp3", surah_number: "097" },
-            { name: "سورة البينة", file: "https://listen.ourquraan.com/Saad_Alghamdi/098.mp3", surah_number: "098" },
-            { name: "سورة الزلزلة", file: "https://listen.ourquraan.com/Saad_Alghamdi/099.mp3", surah_number: "099" },
-            { name: "سورة العاديات", file: "https://listen.ourquraan.com/Saad_Alghamdi/100.mp3", surah_number: "100" },
-            { name: "سورة القارعة", file: "https://listen.ourquraan.com/Saad_Alghamdi/101.mp3", surah_number: "101" },
-            { name: "سورة التكاثر", file: "https://listen.ourquraan.com/Saad_Alghamdi/102.mp3", surah_number: "102" },
-            { name: "سورة العصر", file: "https://listen.ourquraan.com/Saad_Alghamdi/103.mp3", surah_number: "103" },
-            { name: "سورة الهمزة", file: "https://listen.ourquraan.com/Saad_Alghamdi/104.mp3", surah_number: "104" },
-            { name: "سورة الفيل", file: "https://listen.ourquraan.com/Saad_Alghamdi/105.mp3", surah_number: "105" },
-            { name: "سورة قريش", file: "https://listen.ourquraan.com/Saad_Alghamdi/106.mp3", surah_number: "106" },
-            { name: "سورة الماعون", file: "https://listen.ourquraan.com/Saad_Alghamdi/107.mp3", surah_number: "107" },
-            { name: "سورة الكوثر", file: "https://listen.ourquraan.com/Saad_Alghamdi/108.mp3", surah_number: "108" },
-            { name: "سورة الكافرون", file: "https://listen.ourquraan.com/Saad_Alghamdi/109.mp3", surah_number: "109" },
-            { name: "سورة النصر", file: "https://listen.ourquraan.com/Saad_Alghamdi/110.mp3", surah_number: "110" },
-            { name: "سورة المسد", file: "https://listen.ourquraan.com/Saad_Alghamdi/111.mp3", surah_number: "111" },
-            { name: "سورة الإخلاص", file: "https://listen.ourquraan.com/Saad_Alghamdi/112.mp3", surah_number: "112" },
-            { name: "سورة الفلق", file: "https://listen.ourquraan.com/Saad_Alghamdi/113.mp3", surah_number: "113" },
-            { name: "سورة الناس", file: "https://listen.ourquraan.com/Saad_Alghamdi/114.mp3", surah_number: "114" }
+        // Keep a copy of the original tracks array for when shuffle is turned off
+        const originalTracks = [
+{
+ title: "سورة الفاتحة",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/001.mp3",
+        album: 'القرآن الكريم', 
+    },
+    {
+        title: "سورة البقرة",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/002.mp3"
+    },
+    {
+        title: "سورة آل عمران",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/003.mp3"
+    },
+    
+    
+       {
+        title: "سورة النساء",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/004.mp3"
+    },
+    {
+        title: "سورة المائدة",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/005.mp3"
+    },
+    {
+        title: "سورة الأنعام",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/006.mp3"
+    },
+    
+    
+       {
+        title: "سورة الأعراف",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi.mp3"
+    },
+    {
+        title: "سورة الأنفال",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/008.mp3"
+    },
+    {
+        title: "سورة التوبة",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/009.mp3"
+    },
+       {
+        title: "سورة يونس",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/010.mp3"
+    },
+    {
+        title: "سورة هود",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/011.mp3"
+    },
+    
+       {
+        title: "سورة يوسف",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/012.mp3"
+    },
+        {
+        title: "سورة الرعد",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/013.mp3"
+        
+    },
+    
+    
+   
+            {
+        title: "سورة إبراهيم",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/014.mp3"
+    },
+                {
+        title: "سورة الحجر",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/015.mp3"
+    },
+                    {
+        title: "سورة النحل",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/016.mp3"
+    },
+    
+                    {
+        title: "سورة الإسراء",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/017.mp3"
+    },
+    {
+        title: "سورة الكهف ",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/018.mp3"
+    },
+       {
+        title: "سورة مريم",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/019.mp3"
+    },
+       {
+        title: "سورة طه",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/020.mp3"
+    },
+     {
+        title: "سورة الأنبياء",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/021.mp3"
+    },
+      {
+        title: "سورة الحج",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/022.mp3"
+    },
+       {
+       title: "سورة المؤمنون",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/023.mp3"
+    },
+    
+     {
+       title: "سورة النور",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/024.mp3"
+    }, 
+    {
+       title: "سورة الفرقان",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/025.mp3"
+    }, 
+    {
+       title: "سورة الشعراء",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/026.mp3"
+    },
+    
+    {
+       title: "سورة النمل",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/027.mp3", 
+        album: 'القرآن الكريم', 
+    },
+    {
+       title: "سورة القصص",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/028.mp3"
+        , 
+        album: 'القرآن الكريم', 
+    }, 
+    {
+       title: "سورة العنكبوت",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/029.mp3", 
+        album: 'القرآن الكريم', 
+    },
+    
+      {
+       title: "سورة الروم",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/030.mp3", 
+        album: 'القرآن الكريم', 
+    },
+    
+        
+      {
+       title: "سورة لقمان",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/031.mp3", 
+        album: 'القرآن الكريم', 
+    },
+    
+         {
+       title: "سورة السجدة",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/032.mp3", 
+        album: 'القرآن الكريم', 
+    },
+    
+        
+      {
+       title: "سورة الأحزاب",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/033.mp3", 
+        album: 'القرآن الكريم', 
+    },
+    
+    {
+       title: "سورة سبأ",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/034.mp3", 
+        album: 'القرآن الكريم', 
+    },
+    
+    {
+         title: "سورة فاطر",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/035.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+        {
+         title: "سورة يس",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/036.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+    
+           {
+         title: "سورة الصافات",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/037.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+      
+           {
+         title: "سورة ص",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/038.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+            {
+         title: "سورة الزمر",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/039.mp3", 
+        album: 'القرآن الكريم', 
+    },
+        {  title: "سورة غافر",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/040.mp3", 
+        album: 'القرآن الكريم', 
+    },
+    {
+         title: "سورة فصّلت",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/041.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+    
+                        {
+         title: "سورة الشورى",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/042.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+                    {
+         title: "سورة الزخرف",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/043.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+                        {
+         title: "سورة الدّخان",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/044.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+                       {
+         title: "سورة الجاثية",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/045.mp3", 
+        album: 'القرآن الكريم', 
+    },
+                          {
+         title: "سورة الأحقاف",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/046.mp3", 
+        album: 'القرآن الكريم', 
+    },
+                            {
+         title: "سورة محمد",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/047.mp3", 
+        album: 'القرآن الكريم', 
+    },
+                            {
+         title: "سورة الفتح",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/048.mp3", 
+        album: 'القرآن الكريم', 
+    },
+                              {
+         title: "سورة الحجرات",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/049.mp3", 
+        album: 'القرآن الكريم', 
+    },
+       {
+         title: "سورة ق",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/050.mp3", 
+        album: 'القرآن الكريم', 
+    },
+        {
+         title: "سورة الذاريات",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/051.mp3", 
+        album: 'القرآن الكريم', 
+    },
+          {
+         title: "سورة الطور",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/052.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+         {
+         title: "سورة النجم",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/053.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+       {
+         title: "سورة القمر",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/054.mp3", 
+        album: 'القرآن الكريم', 
+    },  
+        {
+         title: "سورة الرحمن",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/055.mp3", 
+        album: 'القرآن الكريم', 
+    },  
+        {
+         title: "سورة الواقعة",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/056.mp3", 
+        album: 'القرآن الكريم', 
+    },   
+      {
+         title: "سورة الحديد",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/057.mp3", 
+        album: 'القرآن الكريم', 
+    },   
+        {
+         title: "سورة المجادلة",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/058.mp3", 
+        album: 'القرآن الكريم', 
+    },   
+    {
+         title: "سورة الحشر",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/059.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+    
+        {
+         title: "سورة الممتحنة",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/060.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+        {
+         title: "سورة الصف",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/061.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+       {
+         title: "سورة الجمعة",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/062.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+       {
+         title: "سورة المنافقون",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/063.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+    {
+         title: "سورة التغابن",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/064.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+      {
+         title: "سورة الطلاق",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/065.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+        {
+         title: "سورة التحريم",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/066.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+       {
+         title: "سورة الملك",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/067.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+      {
+         title: "سورة القلم",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/068.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+     {
+         title: "سورة الحاقة",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/069.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+        {
+         title: "سورة المعارج",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/070.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+       {
+         title: "سورة نوح",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/071.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+       {
+         title: "سورة الجن",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/072.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+           {
+         title: "سورة المزّمّل",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/073.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+               {
+         title: "سورة المدّثر",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/074.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+               {
+         title: "سورة القيامة",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/075.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+                 {
+         title: "سورة الإنسان",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/076.mp3", 
+        album: 'القرآن الكريم', 
+    },
+                  {
+         title: "سورة المرسلات",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/077.mp3", 
+        album: 'القرآن الكريم', 
+    },
+                   {
+         title: "سورة النبأ",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/078.mp3", 
+        album: 'القرآن الكريم', 
+    },
+                 {
+         title: "سورة النازعات",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/079.mp3", 
+        album: 'القرآن الكريم', 
+    },
+    
+                {
+         title: "سورة عبس",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/080.mp3", 
+        album: 'القرآن الكريم', 
+    },
+                    {
+         title: "سورة التكوير",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/081.mp3", 
+        album: 'القرآن الكريم', 
+    },
+                   {
+         title: "سورة الإنفطار",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/082.mp3", 
+        album: 'القرآن الكريم', 
+    },
+               {
+         title: "سورة المطفّفين",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/083.mp3", 
+        album: 'القرآن الكريم', 
+    }, 
+           {
+         title: "سورة الإنشقاق",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/084.mp3", 
+        album: 'القرآن الكريم', 
+    },
+    
+          {
+         title: "سورة البروج",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/085.mp3", 
+        album: 'القرآن الكريم', 
+    },
+          {
+         title: "سورة الطارق",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/086.mp3", 
+        album: 'القرآن الكريم', 
+    },
+             {
+         title: "سورة الأعلى",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/087.mp3", 
+        album: 'القرآن الكريم', 
+    },
+    
+       {
+         title: "سورة الغاشية",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/088.mp3", 
+        album: 'القرآن الكريم', 
+    },
+       
+       {
+         title: "سورة الفجر",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/089.mp3", 
+        album: 'القرآن الكريم', 
+    },
+          {
+         title: "سورة البلد",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/090.mp3", 
+        album: 'القرآن الكريم', 
+    },
+         {
+         title: "سورة الشمس",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/091.mp3", 
+        album: 'القرآن الكريم', 
+    },
+            {
+         title: "سورة الليل",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/092.mp3", 
+        album: 'القرآن الكريم', 
+    },
+    
+            {
+         title: "سورة الضحى",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/093.mp3", 
+        album: 'القرآن الكريم', 
+    },
+                {
+         title: "سورة الشرح",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/094.mp3", 
+        album: 'القرآن الكريم', 
+    },
+                    {
+         title: "سورة التين",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/095.mp3", 
+        album: 'القرآن الكريم', 
+    },
+                      {
+         title: "سورة العلق",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/096.mp3", 
+        album: 'القرآن الكريم', 
+    },
+    
+                      {
+         title: "سورة القدر",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/097.mp3", 
+        album: 'القرآن الكريم', 
+    },
+       
+                      {
+         title: "سورة البينة",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/098.mp3", 
+        album: 'القرآن الكريم', 
+    },
+                         {
+         title: "سورة الزلزلة",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/099.mp3", 
+        album: 'القرآن الكريم', 
+    },
+                           {
+         title: "سورة العاديات",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/100.mp3", 
+        album: 'القرآن الكريم', 
+    },
+                           {
+         title: "سورة القارعة",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/101.mp3", 
+        album: 'القرآن الكريم', 
+    },
+                         {
+         title: "سورة التكاثر",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/102.mp3", 
+        album: 'القرآن الكريم', 
+    },
+                     {
+         title: "سورة العصر",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/103.mp3", 
+        album: 'القرآن الكريم', 
+    },
+               {
+         title: "سورة الفيل",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/104.mp3", 
+        album: 'القرآن الكريم', 
+    },
+         {
+         title: "سورة الفيل",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/105.mp3", 
+        album: 'القرآن الكريم', 
+    },
+        {
+         title: "سورة قريش",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/106.mp3", 
+        album: 'القرآن الكريم', 
+    },
+         {
+         title: "سورة الماعون",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/107.mp3", 
+        album: 'القرآن الكريم', 
+    },
+     {
+         title: "سورة الكوثر",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/108.mp3", 
+        album: 'القرآن الكريم', 
+    },
+     {
+         title: "سورة الكافرون",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/109.mp3", 
+        album: 'القرآن الكريم', 
+    },
+     {
+         title: "سورة النصر",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/110.mp3", 
+        album: 'القرآن الكريم', 
+    },
+    
+      {
+         title: "سورة المسد",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/111.mp3", 
+        album: 'القرآن الكريم', 
+    },
+          {
+         title: "سورة الإخلاص",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/112.mp3", 
+        album: 'القرآن الكريم', 
+    },
+    {
+         title: "سورة الفلق",
+        artist: "  سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/113.mp3", 
+        album: 'القرآن الكريم', 
+    },
+    
+       {
+         title: "سورة النّاس",
+        artist: "سعد الغامدي",
+        cover: "https://i.imgur.com/3Ewyfx6.png",
+        src: "https://listen.ourquraan.com/Saad_Alghamdi/114.mp3", 
+        album: 'القرآن الكريم', 
+    },
         ];
 
-        // وظيفة إنشاء عنصر المسار في القائمة
-        // وظيفة إنشاء عنصر المسار في القائمة
-        function createTrackItem(index, name, surah_number) {
-            var trackItem = document.createElement('div');
-            trackItem.setAttribute("class", "playlist-track-ctn");
-            trackItem.setAttribute("tabindex", index);
-            trackItem.setAttribute("id", "ptc-" + index);
-            trackItem.setAttribute("data-index", index);
-            document.querySelector(".playlist-ctn").appendChild(trackItem);
+        let tracks = [...originalTracks]; // This is the array we'll manipulate (shuffle, etc.)
 
-            var playBtnItem = document.createElement('div');
-            playBtnItem.setAttribute("class", "playlist-btn-play");
-            playBtnItem.setAttribute("id", "pbp-" + index);
-            trackItem.appendChild(playBtnItem);
+        const audioPlayer = document.getElementById('audio-player');
+        const playPauseBtn = document.querySelector('.play-pause');
+        const progressBar = document.querySelector('.progress');
+        const progressFilled = document.querySelector('.progress-filled');
+        const currentTimeElem = document.querySelector('.current-time');
+        const totalTimeElem = document.querySelector('.total-time');
+        const currentTrackTitle = document.querySelector('.track-info h2');
+        const currentTrackArtist = document.querySelector('.track-info p');
+        const currentTrackCover = document.querySelector('.cover');
+        const playlistElem = document.querySelector('.playlist');
+        const repeatBtn = document.querySelector('.repeat');
+        const shuffleBtn = document.querySelector('.shuffle');
+        const seekForwardBtn = document.querySelector('.seek-forward');
+        const seekBackwardBtn = document.querySelector('.seek-backward');
+        const prevTrackBtn = document.querySelector('.prev');
+        const nextTrackBtn = document.querySelector('.next');
 
-            var btnImg = document.createElement('i');
-            btnImg.setAttribute("class", "fas fa-play");
-            btnImg.setAttribute("id", "p-img-" + index);
-            playBtnItem.appendChild(btnImg);
 
-            var trackInfoItem = document.createElement('div');
-            trackInfoItem.setAttribute("class", "playlist-info-track");
-            trackInfoItem.innerHTML = name;
-            trackItem.appendChild(trackInfoItem);
+        let isPlaying = false;
+        let currentTrackIndex = 0;
+        let isRepeat = false;
+        let isShuffle = false;
 
-            var trackDurationItem = document.createElement('div');
-            trackDurationItem.setAttribute("class", "playlist-duration");
-            trackDurationItem.innerHTML = surah_number; // عرض رقم السورة
-            trackItem.appendChild(trackDurationItem);
-        }
-
-        // إنشاء عناصر القائمة عند تحميل الصفحة
-        for (var i = 0; i < listAudio.length; i++) {
-            createTrackItem(i, listAudio[i].name, listAudio[i].surah_number);
-        }
-
-        var indexAudio = 0; // مؤشر المسار الحالي
-        var currentAudio = document.getElementById("myAudio");
-
-        // تحميل مسار صوتي جديد
-        function loadNewTrack(index) {
-            var player = document.querySelector('#source-audio');
-            player.src = listAudio[index].file;
-            document.querySelector('.title').innerHTML = listAudio[index].name;
-            currentAudio.load();
-            toggleAudio(true); // تشغيل الصوت بعد التحميل
-            updateStylePlaylist(this.indexAudio, index);
-            this.indexAudio = index;
-            updateMediaSessionMetadata(index); // تحديث معلومات الميديا
-        }
-
-        // إضافة مستمعي الأحداث لعناصر القائمة
-        var playListItems = document.querySelectorAll(".playlist-track-ctn");
-        for (let i = 0; i < playListItems.length; i++) {
-            playListItems[i].addEventListener("click", getClickedElement.bind(this));
-        }
-
-        function getClickedElement(event) {
-            for (let i = 0; i < playListItems.length; i++) {
-                if (playListItems[i] === event.currentTarget) {
-                    var clickedIndex = parseInt(event.currentTarget.getAttribute("data-index"));
-                    if (clickedIndex === this.indexAudio) {
-                        toggleAudio();
-                    } else {
-                        loadNewTrack(clickedIndex);
-                    }
-                }
-            }
-        }
-
-        // تهيئة المشغل لأول مرة
-        document.querySelector('#source-audio').src = listAudio[indexAudio].file;
-        document.querySelector('.title').innerHTML = listAudio[indexAudio].name;
-        currentAudio.load();
-
-        // تحديث مدة الصوت عند التحميل
-        currentAudio.onloadedmetadata = function () {
-            document.getElementsByClassName('duration')[0].innerHTML = getMinutes(this.duration);
-            updateMediaSessionMetadata(indexAudio);
-        }.bind(currentAudio);
-
-        // التحكم بالتشغيل والإيقاف المؤقت
-        function toggleAudio(forcePlay = false) {
-            var coverImage = document.getElementById('cover-image');
-
-            if (currentAudio.paused || forcePlay) {
-                document.querySelector('#icon-play').style.display = 'none';
-                document.querySelector('#icon-pause').style.display = 'block';
-                document.querySelector('#ptc-' + this.indexAudio).classList.add("active-track");
-                playToPause(this.indexAudio);
-                currentAudio.play();
-                coverImage.classList.add('rotating');
+        // Play / Pause button functionality
+        playPauseBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                audioPlayer.pause();
+                playPauseBtn.innerHTML = '<svg height="25px" width="25px" fill="#fff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80L0 432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"></path></svg>';
+                document.querySelector('.cover').classList.remove('rotating');
             } else {
-                document.querySelector('#icon-play').style.display = 'block';
-                document.querySelector('#icon-pause').style.display = 'none';
-                pauseToPlay(this.indexAudio);
-                currentAudio.pause();
-                coverImage.classList.remove('rotating');
+                audioPlayer.play();
+                playPauseBtn.innerHTML = '<svg height="25px" width="25px" fill="#fff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M48 64C21.5 64 0 85.5 0 112L0 400c0 26.5 21.5 48 48 48l32 0c26.5 0 48-21.5 48-48l0-288c0-26.5-21.5-48-48-48L48 64zm192 0c-26.5 0-48 21.5-48 48l0 288c0 26.5 21.5 48 48 48l32 0c26.5 0 48-21.5 48-48l0-288c0-26.5-21.5-48-48-48l-32 0z"></path></svg>';
+                document.querySelector('.cover').classList.add('rotating');
+            }
+            isPlaying = !isPlaying;
+        });
+
+        progressBar.addEventListener('click', (e) => {
+            const rect = progressBar.getBoundingClientRect();
+            const offsetX = e.clientX - rect.left;
+            const progressPercent = offsetX / rect.width;
+            audioPlayer.currentTime = progressPercent * audioPlayer.duration;
+            updateProgressBar();
+        });
+
+        let isDragging = false;
+
+        progressBar.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            handleDrag(e);
+        });
+
+        progressBar.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                handleDrag(e);
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        audioPlayer.addEventListener('timeupdate', updateProgressBar);
+
+        function updateProgressBar() {
+            const progressPercent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+            progressFilled.style.width = `${progressPercent}%`;
+        }
+
+        function handleDrag(e) {
+            const rect = progressBar.getBoundingClientRect();
+            const offsetX = Math.min(Math.max(e.clientX - rect.left, 0), rect.width);
+            const progressPercent = offsetX / rect.width;
+            progressFilled.style.width = `${progressPercent * 100}%`;
+            audioPlayer.currentTime = progressPercent * audioPlayer.duration;
+        }
+
+        audioPlayer.addEventListener('timeupdate', () => {
+            const { currentTime, duration } = audioPlayer;
+            const progressPercent = (currentTime / duration) * 100;
+            progressFilled.style.width = `${progressPercent}%`;
+            currentTimeElem.textContent = formatTime(currentTime);
+            totalTimeElem.textContent = formatTime(duration);
+        });
+
+        // Event listener for when current track ends
+        audioPlayer.addEventListener('ended', () => {
+            if (isRepeat) {
+                audioPlayer.play(); // Replay current track
+            } else {
+                nextTrack(); // Go to next track
+            }
+        });
+
+        // Toggle Repeat functionality
+        repeatBtn.addEventListener('click', () => {
+            isRepeat = !isRepeat;
+            repeatBtn.classList.toggle('active', isRepeat); // Toggle active class for styling
+        });
+
+        // Toggle Shuffle functionality
+        shuffleBtn.addEventListener('click', () => {
+            isShuffle = !isShuffle;
+            shuffleBtn.classList.toggle('active', isShuffle); // Toggle active class for styling
+
+            if (isShuffle) {
+                // Store current track, shuffle, then find new index of stored track
+                const currentTrackObject = tracks[currentTrackIndex];
+                shuffleArray(tracks);
+                currentTrackIndex = tracks.findIndex(track => track === currentTrackObject);
+            } else {
+                // Restore original order and find current track's index in it
+                const currentTrackObject = tracks[currentTrackIndex];
+                tracks = [...originalTracks]; // Reset tracks to original order
+                currentTrackIndex = tracks.findIndex(track => track === currentTrackObject);
+            }
+            updatePlaylist(); // Refresh the playlist display
+        });
+        
+        // Fisher-Yates (Knuth) shuffle algorithm
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]]; // Swap elements
             }
         }
 
-        // تحديث شريط التقدم والوقت
-        var timer = document.getElementsByClassName('timer')[0];
-        var barProgress = document.getElementById("myBar");
+        seekForwardBtn.addEventListener('click', () => {
+            audioPlayer.currentTime += 10;
+        });
 
-        function onTimeUpdate() {
-            var t = currentAudio.currentTime;
-            timer.innerHTML = getMinutes(t);
-            setBarProgress();
-            if (currentAudio.ended) {
-                document.querySelector('#icon-play').style.display = 'block';
-                document.querySelector('#icon-pause').style.display = 'none';
-                pauseToPlay(this.indexAudio);
-                document.getElementById('cover-image').classList.remove('rotating');
+        seekBackwardBtn.addEventListener('click', () => {
+            audioPlayer.currentTime -= 10;
+        });
 
-                if (this.indexAudio < listAudio.length - 1) {
-                    var index = parseInt(this.indexAudio) + 1;
-                    loadNewTrack(index);
-                } else {
-                    currentAudio.currentTime = 0;
-                    setBarProgress();
-                    timer.innerHTML = "00:00";
-                    document.querySelector('#ptc-' + this.indexAudio).classList.remove("active-track");
-                    updateMediaSessionMetadata(indexAudio);
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function loadTrack(index) {
+            const track = tracks[index];
+            audioPlayer.src = track.src;
+            currentTrackTitle.textContent = track.title;
+            currentTrackArtist.textContent = track.artist;
+            currentTrackCover.src = track.cover;
+            audioPlayer.load();
+            if (isPlaying) {
+                audioPlayer.play();
+            }
+            updateMediaSession();
+        }
+
+        function updatePlaylist() {
+            playlistElem.innerHTML = '';
+            tracks.forEach((track, index) => {
+                const trackElem = document.createElement('div');
+                trackElem.classList.add('track');
+                trackElem.setAttribute('tabindex', index);
+                trackElem.setAttribute('data-index', index);
+
+                if (index === currentTrackIndex) {
+                    trackElem.classList.add('active');
                 }
-            }
-        }
 
-        function setBarProgress() {
-            var progress = (currentAudio.currentTime / currentAudio.duration) * 100;
-            barProgress.style.width = progress + "%";
-        }
+                trackElem.innerHTML = `
+                    <span class="track-number">${index + 1}</span>
+                    <div class="track-details">
+                        <h3>${track.title}</h3>
+                        <p>${track.artist}</p>
+                    </div>
+                    <img src="${track.cover}" alt="Album Cover">
+                `;
 
-        function getMinutes(t) {
-            var min = parseInt(parseInt(t) / 60);
-            var sec = parseInt(t % 60);
-            if (sec < 10) {
-                sec = "0" + sec;
-            }
-            if (min < 10) {
-                min = "0" + min;
-            }
-            return min + ":" + sec;
-        }
+                trackElem.addEventListener('focus', () => {
+                    trackElem.style.backgroundColor = '#ff0066';
+                });
 
-        // البحث في شريط التقدم
-        var progressbar = document.querySelector('#myProgress');
-        progressbar.addEventListener("click", seek.bind(this));
+                trackElem.addEventListener('blur', () => {
+                    trackElem.style.backgroundColor = '';
+                });
 
-        function seek(event) {
-            var percent = event.offsetX / progressbar.offsetWidth;
-            currentAudio.currentTime = percent * currentAudio.duration;
-            setBarProgress();
-        }
+                trackElem.addEventListener('click', () => {
+                    currentTrackIndex = index;
+                    loadTrack(currentTrackIndex);
+                    audioPlayer.play();
+                    isPlaying = true;
+                    playPauseBtn.innerHTML = '<svg height="25px" width="25px" fill="#fff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M48 64C21.5 64 0 85.5 0 112L0 400c0 26.5 21.5 48 48 48l32 0c26.5 0 48-21.5 48-48l0-288c0-26.5-21.5-48-48-48L48 64zm192 0c-26.5 0-48 21.5-48 48l0 288c0 26.5 21.5 48 48 48l32 0c26.5 0 48-21.5 48-48l0-288c0-26.5-21.5-48-48-48l-32 0z"></path></svg>';
+                    document.querySelector('.cover').classList.add('rotating');
+                    updatePlaylist();
+                });
 
-        // تقديم وتأخير الصوت
-        function forward() {
-            currentAudio.currentTime = currentAudio.currentTime + 5;
-            setBarProgress();
-        }
+                playlistElem.appendChild(trackElem);
+            });
 
-        function rewind() {
-            currentAudio.currentTime = currentAudio.currentTime - 5;
-            setBarProgress();
-        }
-
-        // الانتقال للمسار التالي
-        function next() {
-            if (this.indexAudio < listAudio.length - 1) {
-                var oldIndex = this.indexAudio;
-                this.indexAudio++;
-                updateStylePlaylist(oldIndex, this.indexAudio);
-                loadNewTrack(this.indexAudio);
-            }
-        }
-
-        // الانتقال للمسار السابق
-        function previous() {
-            if (this.indexAudio > 0) {
-                var oldIndex = this.indexAudio;
-                this.indexAudio--;
-                updateStylePlaylist(oldIndex, this.indexAudio);
-                loadNewTrack(this.indexAudio);
-            }
-        }
-
-        // تحديث النمط في قائمة التشغيل
-        function updateStylePlaylist(oldIndex, newIndex) {
-            if (document.querySelector('#ptc-' + oldIndex)) {
-                document.querySelector('#ptc-' + oldIndex).classList.remove("active-track");
-                pauseToPlay(oldIndex);
-            }
-            document.querySelector('#ptc-' + newIndex).classList.add("active-track");
-            playToPause(newIndex);
-            // تمرير القائمة تلقائياً لعرض السورة النشطة
-            var activeTrackElement = document.getElementById("ptc-" + newIndex);
+            const activeTrackElement = playlistElem.querySelector('.track.active');
             if (activeTrackElement) {
-                activeTrackElement.scrollIntoView({ behavior: "smooth", block: "nearest" });
+                activeTrackElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }
 
-        // تغيير أيقونة التشغيل/الإيقاف في القائمة
-        function playToPause(index) {
-            var ele = document.querySelector('#p-img-' + index);
-            if (ele) {
-                ele.classList.remove("fa-play");
-                ele.classList.add("fa-pause");
-            }
-        }
-
-        function pauseToPlay(index) {
-            var ele = document.querySelector('#p-img-' + index);
-            if (ele) {
-                ele.classList.remove("fa-pause");
-                ele.classList.add("fa-play");
-            }
-        }
-
-        // كتم الصوت/إلغاء الكتم
-        function toggleMute() {
-            var volUp = document.querySelector('#icon-vol-up');
-            var volMute = document.querySelector('#icon-vol-mute');
-            if (currentAudio.muted === false) {
-                currentAudio.muted = true;
-                volUp.style.display = "none";
-                volMute.style.display = "block";
-            } else {
-                currentAudio.muted = false;
-                volMute.style.display = "none";
-                volUp.style.display = "block";
-            }
-        }
-
-        // Media Session API للتحكم من شاشة القفل والإشعارات
-        function updateMediaSessionMetadata(index) {
-            if ("mediaSession" in navigator) {
+        function updateMediaSession() {
+            if ('mediaSession' in navigator) {
                 navigator.mediaSession.metadata = new MediaMetadata({
-                    title: listAudio[index].name,
-                    artist: "الشيخ سعد الغامدي",
-                    album: "القرآن الكريم - حفص عن عاصم",
-                    artwork: [
+                    title: tracks[currentTrackIndex].title,
+                    artist: tracks[currentTrackIndex].artist,
+           artwork: [
                         { src: "https://i.imgur.com/ldiBgPN.jpg", sizes: "96x96", type: "image/jpeg" },
                         { src: "https://i.imgur.com/ldiBgPN.jpg", sizes: "128x128", type: "image/jpeg" },
                         { src: "https://i.imgur.com/ldiBgPN.jpg", sizes: "192x192", type: "image/jpeg" },
@@ -895,80 +1664,143 @@
                     ]
                 });
 
-                navigator.mediaSession.setActionHandler('play', function () {
-                    if (currentAudio.paused) {
-                        toggleAudio(true);
-                    }
+                navigator.mediaSession.setActionHandler('play', () => {
+                    audioPlayer.play();
+                    playPauseBtn.innerHTML = '<svg height="25px" width="25px" fill="#fff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M48 64C21.5 64 0 85.5 0 112L0 400c0 26.5 21.5 48 48 48l32 0c26.5 0 48-21.5 48-48l0-288c0-26.5-21.5-48-48-48L48 64zm192 0c-26.5 0-48 21.5-48 48l0 288c0 26.5 21.5 48 48 48l32 0c26.5 0 48-21.5 48-48l0-288c0-26.5-21.5-48-48-48l-32 0z"></path></svg>';
+                    document.querySelector('.cover').classList.add('rotating');
+                    isPlaying = true;
                 });
 
-                navigator.mediaSession.setActionHandler('pause', function () {
-                    if (!currentAudio.paused) {
-                        toggleAudio(false);
-                    }
+                navigator.mediaSession.setActionHandler('pause', () => {
+                    audioPlayer.pause();
+                    playPauseBtn.innerHTML = '<svg height="25px" width="25px" fill="#fff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80L0 432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"></path></svg>';
+                    document.querySelector('.cover').classList.remove('rotating');
+                    isPlaying = false;
                 });
 
-                navigator.mediaSession.setActionHandler('previoustrack', function () {
-                    previous();
+                navigator.mediaSession.setActionHandler('nexttrack', () => {
+                    nextTrack();
+                    updateMediaSession();
                 });
 
-                navigator.mediaSession.setActionHandler('nexttrack', function () {
-                    next();
+                navigator.mediaSession.setActionHandler('previoustrack', () => {
+                    previousTrack();
+                    updateMediaSession();
                 });
-
-                navigator.mediaSession.playbackState = currentAudio.paused ? 'paused' : 'playing';
             }
         }
 
-        currentAudio.onplay = function () {
-            updateMediaSessionMetadata(indexAudio);
-            document.getElementById('cover-image').classList.add('rotating');
-        };
-
-        currentAudio.onpause = function () {
-            updateMediaSessionMetadata(indexAudio);
-            document.getElementById('cover-image').classList.remove('rotating');
-        };
-
-        currentAudio.onended = function () {
-            updateMediaSessionMetadata(indexAudio);
-            document.getElementById('cover-image').classList.remove('rotating');
-        };
-
-        // وظائف البحث
-        function toggleSearchBar() {
-            let searchbar = document.getElementById('searchbar');
-            searchbar.classList.toggle('show');
-            if (searchbar.classList.contains('show')) {
-                searchbar.focus();
-            } else {
-                let buttons = document.querySelectorAll('.playlist-track-ctn');
-                buttons.forEach(button => {
-                    button.classList.remove('hidden');
-                });
-                searchbar.value = '';
-            }
+        function nextTrack() {
+            currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
+            loadTrack(currentTrackIndex);
+            audioPlayer.play();
+            isPlaying = true;
+            playPauseBtn.innerHTML = '<svg height="25px" width="25px" fill="#fff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M48 64C21.5 64 0 85.5 0 112L0 400c0 26.5 21.5 48 48 48l32 0c26.5 0 48-21.5 48-48l0-288c0-26.5-21.5-48-48-48L48 64zm192 0c-26.5 0-48 21.5-48 48l0 288c0 26.5 21.5 48 48 48l32 0c26.5 0 48-21.5 48-48l0-288c0-26.5-21.5-48-48-48l-32 0z"></path></svg>';
+            document.querySelector('.cover').classList.add('rotating');
+            updatePlaylist();
         }
 
-        function search_surah() {
-            let input = document.getElementById('searchbar').value.trim().toLowerCase();
-            let buttons = document.querySelectorAll('.playlist-track-ctn');
-
-            buttons.forEach(button => {
-                let surahName = button.querySelector('.playlist-info-track').textContent.toLowerCase();
-                let surahNumber = button.querySelector('.playlist-duration').textContent.toLowerCase();
-
-                if (surahName.includes(input) || surahNumber.includes(input)) {
-                    button.classList.remove('hidden');
-                } else {
-                    button.classList.add('hidden');
-                }
-            });
+        function previousTrack() {
+            currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
+            loadTrack(currentTrackIndex);
+            audioPlayer.play();
+            isPlaying = true;
+            playPauseBtn.innerHTML = '<svg height="25px" width="25px" fill="#fff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M48 64C21.5 64 0 85.5 0 112L0 400c0 26.5 21.5 48 48 48l32 0c26.5 0 48-21.5 48-48l0-288c0-26.5-21.5-48-48-48L48 64zm192 0c-26.5 0-48 21.5-48 48l0 288c0 26.5 21.5 48 48 48l32 0c26.5 0 48-21.5 48-48l0-288c0-26.5-21.5-48-48-48l-32 0z"></path></svg>';
+            document.querySelector('.cover').classList.add('rotating');
+            updatePlaylist();
         }
 
-        window.addEventListener('load', function() {
-            updateMediaSessionMetadata(indexAudio);
+        prevTrackBtn.addEventListener('click', previousTrack);
+        nextTrackBtn.addEventListener('click', nextTrack);
+
+        loadTrack(currentTrackIndex);
+        updatePlaylist();
+    </script>
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const searchbar = document.getElementById("searchbar");
+    const closeIcon = document.getElementById("close-icon");
+    const searchIcon = document.getElementById("search-icon");
+    const noResults = document.getElementById("no-results");
+    const buttons = document.querySelectorAll(".track");
+
+    if (searchIcon && searchbar && closeIcon && noResults) {
+        // ✅ فتح شريط البحث عند الضغط على أيقونة البحث
+        searchIcon.addEventListener("click", function () {
+            searchbar.classList.add("show");
+            closeIcon.classList.add("show");
+            searchbar.focus();
         });
 
-    </script>
+        // ✅ إغلاق شريط البحث عند الضغط على زر الإغلاق أو خارج شريط البحث
+        function closeSearchBar() {
+            if (searchbar.classList.contains("show")) {
+                searchbar.classList.remove("show");
+                closeIcon.classList.remove("show");
+                noResults.style.display = "none";
+                searchbar.value = ""; // مسح البحث
+                buttons.forEach(button => button.classList.remove("hidden")); // إظهار جميع الأزرار
+            }
+        }
+
+        closeIcon.addEventListener("click", closeSearchBar);
+        document.addEventListener("click", function (event) {
+            if (!searchbar.contains(event.target) && !searchIcon.contains(event.target) && !closeIcon.contains(event.target)) {
+                closeSearchBar();
+            }
+        });
+
+        // ✅ إغلاق شريط البحث عند الضغط على زر Escape
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                event.preventDefault(); // منع أي تأثيرات أخرى
+                closeSearchBar();
+            }
+        });
+
+        // ✅ البحث وإظهار النتائج
+        searchbar.addEventListener("input", function () {
+            const input = searchbar.value.trim().toLowerCase();
+            let found = false;
+
+            buttons.forEach(button => {
+                if (button.textContent.toLowerCase().includes(input)) {
+                    button.classList.remove("hidden");
+                    found = true;
+                } else {
+                    button.classList.add("hidden");
+                }
+            });
+
+            // ✅ إظهار أو إخفاء رسالة "لم يتم العثور على نتائج"
+            noResults.style.display = found ? "none" : "block";
+        });
+    }
+});
+
+
+    //✅ دالة التعامل مع خطأ تحميل الصورة
+    function handleImageError(img) {
+        // تغيير مصدر الصورة إلى صورة بديلة في حال حدوث خطأ في تحميل الصورة الأصلية
+        img.src = "https://raw.githubusercontent.com/aminemk640/Movies-free/refs/heads/main/00.png?text=صورة+غير+متاحة'; // صورة بديلة";
+        img.onerror = null; // إيقاف محاولة تحميل الصورة مرة أخرى
+        
+    }
+</script>
+
+     <script> 
+// يفضل وضعه بعد إغلاق $(document).ready(...)
+
+$(document).on('keydown', function(event) {
+    // التحقق من زر "X" أو "الرجوع" في جهاز التحكم (عادةً Backspace أو Escape)
+    if (event.key === 'Backspace' || event.key === 'Escape' || event.keyCode === 461) {
+        // keyCode 461 هو رمز شائع لزر العودة في Android TV
+        history.back(); // العودة إلى الصفحة السابقة في السجل
+        event.preventDefault(); // منع السلوك الافتراضي للمتصفح (لتجنب الرجوع المزدوج أو إغلاق التطبيق)
+    }
+});
+ </script>
+    
 </body>
 </html>
