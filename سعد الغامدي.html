@@ -252,11 +252,11 @@
         }
         /* ACTIVE STATE FOR SHUFFLE AND REPEAT BUTTONS */
         .controls button.active {
-            background:#d0368a; /* لون جذاب للخلفية */
+            background-image: linear-gradient(180deg, #66ccff 0%, #66ccff 99%);
+            border-color: #ff0066; /* لون جذاب للخلفية */
             color: #fff; /* لون النص أو الأيقونة */
             border-radius: 8px;
             outline: none;
-            border: 2px solid #fff; /* حدود داكنة */
         }
         .controls button.active svg path {
             fill: #fff; /* لون أيقونة الزر عندما يكون نشطًا */
@@ -313,7 +313,7 @@
             cursor: pointer;
             border-radius: 8px;
             border-top: 2px solid #fff;
-            margin-top: 2px;            
+            margin-top: 5px;            
             margin-bottom: 2px;           
             background-color: #333;
             transition: background 0.3s, border-color 0.3s;
@@ -363,6 +363,7 @@
             text-align: center;
             font-size: 18px;
             background: #ff0066;
+            border: 2px solid #fff;
             border-radius: 50%;
             width: 32px;
             height: 32px;
@@ -374,10 +375,9 @@
         }
 
         .track.active {
-         background-image: linear-gradient(180deg, #ff0066 0%, #faa61a 99%);
-            color: #000;  
-            box-shadow: 0 0 10px #faa61a;
-            border-color: #fff;
+         background-image: linear-gradient(180deg, #66ccff 0%, #66ccff 99%);
+            color: #000;            
+            border-color: #ff0066;
         }
 
        .track:hover,.track:focus {
@@ -1231,3 +1231,4 @@
     
 </body>
 </html>
+
