@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover" />
+    <link rel="icon" type="image/jpg" href="https://raw.githubusercontent.com/aminemk640/Qurana-app/refs/heads/main/logo/0.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>مصحف النور Pro - TV</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #10b981; --accent: #fbbf24; --bg-dark: #020617; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none !important; }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--bg-dark);
+            color: #f8fafc;
+            height: 100vh;
+            overflow: hidden;
+        }
+        html { overflow-x: hidden; }
+        
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background-image: linear-gradient(180deg, #10b981 0%, #3b82f6 99%); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background-image: linear-gradient(180deg, #fbbf24 0%, #10b981 99%); }
+        * { scrollbar-width: thin; scrollbar-color: #10b981 #1e293b; }
+        
+        .font-quran { font-family: 'Amiri', serif; }
+        
+        .focusable { 
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); 
+            border: 3px solid transparent; 
+            border-radius: 16px; 
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .focusable:focus-visible, 
+        .focusable:focus,
+        .focusable.tv-focused {
+            transform: scale(1.08);
+            border: 4px solid var(--accent) !important;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.35), rgba(251, 191, 36, 0.2)) !important;
+            box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.5), 0 0 40px rgba(251, 191, 36, 0.5);
+            outline: none;
+            z-index: 50;
+        }
+        
+        .main-scroll { height: calc(100vh - 100px); overflow-y: auto; scroll-behavior: smooth; padding-bottom: 140px; }
+        
+        .player-bar { 
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(20px);
+            border-top: 2px solid rgba(16, 185, 129, 0.5);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 400;
+        }
+        
+        .player-reopen-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10b981, #059669);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 25px rgba(16, 185, 129, 0.6), 0 0 0 4px rgba(16, 185, 129, 0.2);
+            z-index: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            transform: scale(0);
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .player-reopen-btn.show {
+            transform: scale(1);
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .player-reopen-btn:hover,
+        .player-reopen-btn:focus {
+            transform: scale(1.15);
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            box-shadow: 0 8px 35px rgba(251, 191, 36, 0.7), 0 0 0 5px rgba(251, 191, 36, 0.3);
+        }
+        
+        .player-reopen-btn svg {
+            width: 32px;
+            height: 32px;
+            color: white;
+        }
+        
+        .player-reopen-btn::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            border: 2px solid rgba(16, 185, 129, 0.5);
+            animation: pulse-ring 2s ease-out infinite;
+        }
+        
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 1; }
+            100% { transform: scale(1.3); opacity: 0; }
+        }
+        
+        .player-reopen-btn:focus::before { display: none; }
+        
+        .ayah-num-icon { display: inline-flex; width: 42px; height: 42px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 12px; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; color: white; box-shadow: 0 2px 8px rgba(16,185,129,0.3); }
+        .surah-badge { background: linear-gradient(135deg, #10b981, #059669); width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; color: white; box-shadow: 0 4px 12px rgba(16,185,129,0.4); }
+        .recitation-badge { display: inline-flex; align-items: center; gap: 4px; padding: 5px 12px; border-radius: 30px; font-size: 11px; font-weight: bold; }
+        .recitation-hafs { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+        .recitation-warsh { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
+        .recitation-qaloon { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
+        
+        .toast-message { position: fixed; bottom: 180px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); color: #fbbf24; padding: 14px 28px; border-radius: 60px; font-size: 16px; z-index: 2000; border: 2px solid #fbbf24; white-space: nowrap; font-weight: bold; animation: fadeOut 2.5s ease forwards; pointer-events: none; }
+        @keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
+        
+        .recitation-filter-btn.active { background: var(--primary) !important; color: white !important; }
+        
+        .player-control-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(30, 41, 59, 0.8);
+            transition: all 0.2s;
+        }
+        .player-control-btn:focus {
+            background: var(--accent) !important;
+            transform: scale(1.15);
+        }
+        .player-control-btn svg { width: 32px; height: 32px; }
+        
+        .progress-bar-focusable:focus {
+            box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.6);
+            transform: scaleY(1.5);
+        }
+        
+        @media (min-width: 1280px) { html { font-size: 18px; } }
+        @media (min-width: 1920px) { html { font-size: 20px; } }
+        
+        * { user-select: none; -webkit-user-select: none; }
+        .selectable { user-select: text; -webkit-user-select: text; }
+    </style>
+</head>
+<body class="flex flex-col">
+
+<button id="player-reopen-btn" class="player-reopen-btn focusable" onclick="togglePlayer(true)" title="فتح المشغل">
+    <i data-lucide="music"></i>
+</button>
+
+<footer id="player-bar" class="fixed bottom-0 left-0 right-0 player-bar p-4 pb-6 translate-y-full z-[400]">
+    <div class="max-w-6xl mx-auto flex flex-col gap-4">
+        <div class="flex justify-between items-center px-2">
+            <div class="flex items-center gap-4 overflow-hidden">
+                <div class="relative flex-shrink-0">
+                    <img id="p-img" src="" class="w-16 h-16 rounded-2xl bg-slate-800 object-cover border-2 border-emerald-500/50" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/aminemk640/Qurana-app/refs/heads/main/logo/0.png';">
+                    <div id="p-surah-id" class="absolute -top-2 -right-2 ayah-num-icon scale-90 bg-slate-900 border-2 border-emerald-500 rounded-full w-7 h-7 text-xs">1</div>
+                </div>
+                <div class="truncate">
+                    <h4 id="p-s-name" class="font-bold font-quran text-2xl text-emerald-400 truncate">سورة</h4>
+                    <p id="p-q-name" class="text-sm text-slate-400 truncate">اسم القارئ</p>
+                </div>
+            </div>
+            <button onclick="togglePlayer(false)" class="focusable player-control-btn" title="إخفاء المشغل">
+                <i data-lucide="chevron-down" class="text-white"></i>
+            </button>
+        </div>
+        
+        <div class="flex items-center gap-4">
+            <span id="p-curr" class="text-sm font-mono text-emerald-400 w-14 text-center">00:00</span>
+            <div id="progress-container" tabindex="0" class="focusable progress-bar-focusable flex-1 h-3 bg-slate-800 rounded-full relative cursor-pointer transition-all" onclick="seek(event)">
+                <div id="p-bar" class="h-full bg-gradient-to-l from-emerald-500 to-emerald-400 rounded-full w-0 transition-all"></div>
+            </div>
+            <span id="p-total" class="text-sm font-mono text-slate-500 w-14 text-center">00:00</span>
+        </div>
+        
+        <div class="flex items-center justify-center gap-4 sm:gap-8">
+            <button onclick="changeSurah(-1)" class="focusable player-control-btn" title="السورة السابقة">
+                <i data-lucide="skip-forward" class="text-slate-300"></i>
+            </button>
+            <button onclick="skip(-10)" class="focusable player-control-btn" title="تأخير 10 ثوان">
+                <i data-lucide="rewind" class="text-slate-300"></i>
+            </button>
+            <button onclick="togglePlay()" id="play-btn" class="focusable w-24 h-24 bg-emerald-600 text-white rounded-full flex items-center justify-center shadow-2xl" title="تشغيل / إيقاف">
+                <i data-lucide="play" id="play-icon" class="fill-current w-12 h-12"></i>
+            </button>
+            <button onclick="skip(10)" class="focusable player-control-btn" title="تقديم 10 ثوان">
+                <i data-lucide="fast-forward" class="text-slate-300"></i>
+            </button>
+            <button onclick="changeSurah(1)" class="focusable player-control-btn" title="السورة التالية">
+                <i data-lucide="skip-back" class="text-slate-300"></i>
+            </button>
+        </div>
+    </div>
+</footer>
+
+<header class="h-20 flex items-center justify-between px-6 bg-slate-900 border-b border-white/10 z-[150]">
+    <div class="flex items-center gap-4">
+        <button onclick="toggleSidebar(true)" class="focusable p-4 rounded-xl text-emerald-400 bg-slate-800" title="القائمة">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+        <div onclick="goHome()" class="focusable flex items-center gap-3 cursor-pointer p-3 rounded-xl">
+            <img src="https://raw.githubusercontent.com/aminemk640/Qurana-app/refs/heads/main/logo/0.png" class="w-12 h-12 rounded-full border-2 border-emerald-500 shadow-lg" alt="logo">
+            <h1 class="hidden sm:block font-bold text-2xl">مصحف <span class="text-emerald-500">النور</span></h1>
+        </div>
+    </div>
+    <div class="flex items-center gap-3">
+        <button onclick="goHome()" class="focusable p-4 rounded-xl bg-slate-800 text-white" title="الرئيسية">
+            <i data-lucide="home" class="w-6 h-6"></i>
+        </button>
+        <button onclick="openSearchModal()" class="focusable p-4 rounded-xl bg-emerald-500/10 text-emerald-400" title="بحث">
+            <i data-lucide="search" class="w-6 h-6"></i>
+        </button>
+    </div>
+</header>
+
+<div id="search-overlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[999] hidden" onclick="closeSearchModal()"></div>
+<div id="search-modal" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-2xl bg-slate-900 border-2 border-emerald-500/50 rounded-3xl p-8 z-[1000] hidden shadow-2xl">
+    <div class="flex justify-between items-center mb-6">
+        <h3 class="text-2xl font-bold text-emerald-400">🔍 بحث</h3>
+        <button onclick="closeSearchModal()" class="focusable p-3 rounded-xl bg-slate-800 text-slate-400" title="إغلاق">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+    </div>
+    <input type="text" id="main-search" oninput="handleSearchInput(this.value)" placeholder="ابحث عن قارئ، سورة، أو رواية..." class="focusable selectable w-full bg-slate-800 border-2 border-emerald-500/50 rounded-xl py-5 px-6 outline-none text-white text-xl focus:border-emerald-400">
+    <div id="quick-search-results" class="mt-6 max-h-96 overflow-y-auto space-y-3"></div>
+</div>
+
+<div id="sidebar-overlay" onclick="toggleSidebar(false)" class="fixed inset-0 bg-black/80 z-[200] hidden backdrop-blur-sm"></div>
+<aside id="sidebar" class="fixed top-0 right-0 w-96 h-full bg-slate-900 shadow-2xl flex flex-col p-8 z-[250] transform translate-x-full transition-transform duration-300 border-l-2 border-white/10 overflow-y-auto">
+    <div class="flex justify-between items-center mb-10">
+        <span class="text-2xl font-bold text-emerald-500">مصحف النور</span>
+        <button onclick="toggleSidebar(false)" class="focusable p-3 rounded-full hover:bg-white/5" title="إغلاق">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+    </div>
+    <nav class="space-y-4">
+        <button onclick="goHome()" class="focusable w-full flex items-center gap-5 p-5 rounded-2xl hover:bg-emerald-500/10 transition text-lg">
+            <i data-lucide="home" class="w-6 h-6"></i> الرئيسية
+        </button>
+        <button onclick="showSection('reciters')" class="focusable w-full flex items-center gap-5 p-5 rounded-2xl hover:bg-emerald-500/10 transition text-lg">
+            <i data-lucide="mic" class="w-6 h-6"></i> جميع القراء
+        </button>
+        <button onclick="showSection('mushaf')" class="focusable w-full flex items-center gap-5 p-5 rounded-2xl hover:bg-emerald-500/10 transition text-lg">
+            <i data-lucide="book-open" class="w-6 h-6"></i> المصحف المكتوب
+        </button>
+    </nav>
+    <div class="mt-10 pt-8 border-t-2 border-white/10">
+        <h3 class="text-sm font-bold text-slate-500 mb-4 flex items-center gap-3">
+            <i data-lucide="layers" class="w-5 h-5"></i> تصفية حسب الرواية
+        </h3>
+        <div class="space-y-3">
+            <button onclick="filterRecitersByRecitation('all')" id="filter-all" class="recitation-filter-btn focusable w-full text-right px-5 py-4 rounded-xl text-base bg-emerald-500/10 text-emerald-400 active">📖 جميع القراء</button>
+            <button onclick="filterRecitersByRecitation('حفص')" id="filter-hafs" class="recitation-filter-btn focusable w-full text-right px-5 py-4 rounded-xl text-base bg-slate-800 text-slate-300">🟢 رواية حفص عن عاصم</button>
+            <button onclick="filterRecitersByRecitation('ورش')" id="filter-warsh" class="recitation-filter-btn focusable w-full text-right px-5 py-4 rounded-xl text-base bg-slate-800 text-slate-300">🟠 رواية ورش عن نافع</button>
+            <button onclick="filterRecitersByRecitation('قالون')" id="filter-qaloon" class="recitation-filter-btn focusable w-full text-right px-5 py-4 rounded-xl text-base bg-slate-800 text-slate-300">🔵 رواية قالون عن نافع</button>
+        </div>
+    </div>
+</aside>
+
+<main class="main-scroll" id="scroll-area">
+    <section id="home-sec" class="p-6 md:p-12 space-y-10">
+        <div class="bg-gradient-to-br from-emerald-900 to-slate-900 rounded-[2.5rem] p-10 text-center border border-white/10 relative overflow-hidden">
+            <h2 class="text-4xl md:text-5xl font-quran font-bold text-white mb-6">﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾</h2>
+            <p class="text-emerald-200/70 mb-10 max-w-2xl mx-auto text-lg">مكتبة شاملة تخدم احتياجاتك في القراءة والاستماع، بعدة روايات مختلفة.</p>
+            <div class="flex flex-wrap justify-center gap-6">
+                <button onclick="showSection('mushaf')" class="focusable px-10 py-5 bg-emerald-600 rounded-full font-bold text-white flex items-center gap-3 shadow-lg text-lg">
+                    <i data-lucide="book-open" class="w-6 h-6"></i> المصحف المكتوب
+                </button>
+                <button onclick="showSection('reciters')" class="focusable px-10 py-5 bg-slate-800 rounded-full font-bold text-white flex items-center gap-3 border-2 border-white/10 text-lg">
+                    <i data-lucide="mic" class="w-6 h-6"></i> استماع للقراء
+                </button>
+            </div>
+        </div>
+        <div>
+            <div class="flex justify-between items-center mb-8">
+                <h3 class="text-2xl font-bold flex items-center gap-3">
+                    <i data-lucide="star" class="text-amber-500 fill-current w-7 h-7"></i> قراء مقترحون
+                </h3>
+                <button onclick="showSection('reciters')" class="focusable px-6 py-3 bg-slate-800 rounded-xl text-emerald-400 font-bold">عرض الكل</button>
+            </div>
+            <div id="featured-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6"></div>
+        </div>
+    </section>
+
+    <section id="reciters-sec" class="hidden p-6 md:p-12">
+        <div class="flex justify-between items-center flex-wrap gap-6 mb-10">
+            <h2 class="text-3xl font-bold flex items-center gap-4">
+                <i data-lucide="users" class="w-8 h-8"></i> جميع القراء
+            </h2>
+            <div class="flex flex-wrap gap-3">
+                <button onclick="filterRecitersByRecitation('all')" class="focusable px-6 py-3 rounded-xl text-base bg-emerald-500/20 text-emerald-400">الكل</button>
+                <button onclick="filterRecitersByRecitation('حفص')" class="focusable px-6 py-3 rounded-xl text-base bg-slate-800 text-slate-300">حفص</button>
+                <button onclick="filterRecitersByRecitation('ورش')" class="focusable px-6 py-3 rounded-xl text-base bg-slate-800 text-slate-300">ورش</button>
+                <button onclick="filterRecitersByRecitation('قالون')" class="focusable px-6 py-3 rounded-xl text-base bg-slate-800 text-slate-300">قالون</button>
+            </div>
+        </div>
+        <div id="all-reciters-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"></div>
+    </section>
+
+    <section id="qari-details-sec" class="hidden p-6 md:p-12">
+        <div class="flex flex-col md:flex-row gap-8 items-center bg-slate-800/40 p-8 rounded-3xl mb-10 border border-white/10 relative">
+            <button onclick="goHome()" class="focusable absolute top-6 left-6 p-4 bg-slate-900 text-emerald-400 rounded-xl" title="الرئيسية">
+                <i data-lucide="home" class="w-6 h-6"></i>
+            </button>
+            <img id="qari-header-img" src="" class="w-36 h-36 rounded-2xl object-cover shadow-2xl border-4 border-emerald-500/30" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/aminemk640/Qurana-app/refs/heads/main/logo/0.png';" alt="qari">
+            <div class="text-center md:text-right">
+                <h2 id="qari-header-name" class="text-4xl font-bold mb-3"></h2>
+                <div id="qari-header-recitation" class="inline-block"></div>
+            </div>
+        </div>
+        <div id="surahs-audio-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+    </section>
+
+    <section id="mushaf-sec" class="hidden p-6 md:p-12">
+        <div class="flex justify-between items-center mb-10">
+            <h2 class="text-3xl font-bold">📖 فهرس السور</h2>
+            <button onclick="goHome()" class="focusable p-4 bg-slate-800 rounded-xl" title="الرئيسية">
+                <i data-lucide="home" class="w-6 h-6"></i>
+            </button>
+        </div>
+        <div id="mushaf-list-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+    </section>
+
+    <section id="reading-sec" class="hidden">
+        <div class="sticky top-0 z-[100] bg-slate-900/98 backdrop-blur-xl p-5 flex justify-between items-center border-b-2 border-emerald-500/30">
+            <div class="flex items-center gap-4">
+                <button onclick="showSection('mushaf')" class="focusable p-4 bg-slate-800 rounded-xl" title="رجوع">
+                    <i data-lucide="chevron-right" class="w-6 h-6"></i>
+                </button>
+                <h2 id="reading-s-name" class="text-3xl font-quran font-bold text-emerald-400"></h2>
+            </div>
+            <button onclick="goHome()" class="focusable p-4 bg-slate-800 rounded-xl" title="الرئيسية">
+                <i data-lucide="home" class="w-6 h-6"></i>
+            </button>
+        </div>
+        <div id="reading-content" class="p-8 md:p-20 text-center leading-[3] font-quran text-4xl selectable"></div>
+    </section>
+</main>
+
+<audio id="audio-engine" preload="metadata"></audio>
+
+<script>
+    const fallbackImage = "https://raw.githubusercontent.com/aminemk640/Qurana-app/refs/heads/main/logo/0.png";
+    
+    const reciters = [
+        { id: 1, name: "مشاري العفاسي", recitation: "حفص", recitationName: "رواية حفص عن عاصم", img: "https://pbs.twimg.com/profile_images/1800337908236210176/3_cRiGYx_400x400.jpg", server: "https://server8.mp3quran.net/afs/" },
+        { id: 2, name: "ماهر المعيقلي", recitation: "حفص", recitationName: "رواية حفص عن عاصم", img: "https://ar.assabile.com/media/person/200x256/maher-al-mueaqly.png", server: "https://server12.mp3quran.net/maher/" },
+        { id: 3, name: "ياسر الدوسري", recitation: "حفص", recitationName: "رواية حفص عن عاصم", img: "https://s-media-cache-ak0.pinimg.com/564x/32/3e/17/323e173f4833680898f51240bedd4973.jpg", server: "https://server11.mp3quran.net/yasser/" },
+        { id: 4, name: "سعد الغامدي", recitation: "حفص", recitationName: "رواية حفص عن عاصم", img: "https://i.pinimg.com/564x/85/27/cf/8527cf694f379425e43b9a4fe54b6cfb.jpg", server: "https://server7.mp3quran.net/s_gmd/" },
+        { id: 5, name: "أحمد العجمي", recitation: "حفص", recitationName: "رواية حفص عن عاصم", img: "https://i.pinimg.com/564x/b1/9f/03/b19f03a9f2f09c46afbfd4f03727aee7.jpg", server: "https://server10.mp3quran.net/ajm/" },
+        { id: 6, name: "عبد الباسط عبد الصمد", recitation: "حفص", recitationName: "رواية حفص عن عاصم", img: "https://i.pinimg.com/564x/52/95/ae/5295ae7c08e4ebdc7eda3ddb5c6c0a19.jpg", server: "https://server7.mp3quran.net/basit/" },
+        { id: 7, name: "محمد صديق المنشاوي", recitation: "حفص", recitationName: "رواية حفص عن عاصم", img: "https://i.pinimg.com/564x/21/76/8d/21768d297bd3460f7339b7b755f53d03.jpg", server: "https://server10.mp3quran.net/minsh/" },
+        { id: 8, name: "العيون الكوشي", recitation: "ورش", recitationName: "رواية ورش عن نافع", img: "https://i.pinimg.com/564x/ef/cf/7f/efcf7f30467f6962fd15fa34f2a417cc.jpg", server: "https://server11.mp3quran.net/koshi/" },
+        { id: 9, name: "فارس عباد", recitation: "ورش", recitationName: "رواية ورش عن نافع", img: "https://s-media-cache-ak0.pinimg.com/564x/2b/28/ae/2b28aef3f9678b7cd89315d5ffceba2f.jpg", server: "https://server8.mp3quran.net/frs_a/" },
+        { id: 10, name: "محمد الكنتاوي", recitation: "ورش", recitationName: "رواية ورش عن نافع", img: "https://i.pinimg.com/564x/4a/9e/2c/4a9e2c6b8d3f5e7a9b1c3d5e7f9a1b3c.jpg", server: "https://server8.mp3quran.net/kan/" },
+        { id: 11, name: "رشيد إفراد", recitation: "ورش", recitationName: "رواية ورش عن نافع", img: "https://i.pinimg.com/564x/5b/8e/3d/5b8e3d7c9a1b3d5e7f9a1b3c5d7e9f1a.jpg", server: "https://server10.mp3quran.net/rif/" },
+        { id: 12, name: "عبد الرحمن السديس", recitation: "قالون", recitationName: "رواية قالون عن نافع", img: "https://s-media-cache-ak0.pinimg.com/564x/83/9f/a1/839fa1a43d6988809d0796f619eba1c8.jpg", server: "https://server11.mp3quran.net/sds/" },
+        { id: 13, name: "علي حجاج السويسي", recitation: "قالون", recitationName: "رواية قالون عن نافع", img: "https://i.pinimg.com/564x/6c/8e/3d/6c8e3d7c9a1b3d5e7f9a1b3c5d7e9f1b.jpg", server: "https://server7.mp3quran.net/hjj/" }
+    ];
+
+    let allSurahs = [];
+    let currentQari = null;
+    let currentSurahId = 1;
+    let currentActiveSection = 'home';
+    let isPlayingAudio = false;
+    let currentRecitationFilter = 'all';
+    const audio = document.getElementById('audio-engine');
+    let backStack = [];
+    let backPressCount = 0, backPressTimer = null;
+
+    window.onload = async () => { 
+        lucide.createIcons(); 
+        await fetchSurahs(); 
+        renderReciters(); 
+        setupAudioEvents(); 
+        setupBackButtonHandler(); 
+        setupMediaSession();  // ✅ تهيئة MediaSession
+        makeAllFocusable(); 
+        setupTVNavigation();
+    };
+    
+    function setupTVNavigation() {
+        document.addEventListener('keydown', (e) => {
+            const key = e.key;
+            
+            if (key === 'Escape' || key === 'GoBack' || key === 'BrowserBack') {
+                e.preventDefault();
+                handleBackPress();
+                return;
+            }
+            
+            if (key === 'MediaPlayPause' || key === ' ') {
+                if (!document.getElementById('player-bar').classList.contains('translate-y-full')) {
+                    e.preventDefault();
+                    togglePlay();
+                }
+                return;
+            }
+            if (key === 'MediaTrackNext') { e.preventDefault(); changeSurah(1); return; }
+            if (key === 'MediaTrackPrevious') { e.preventDefault(); changeSurah(-1); return; }
+            if (key === 'MediaFastForward') { e.preventDefault(); skip(10); return; }
+            if (key === 'MediaRewind') { e.preventDefault(); skip(-10); return; }
+            
+            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(key)) {
+                const focused = document.activeElement;
+                
+                if (focused && focused.id === 'progress-container') {
+                    if (key === 'ArrowLeft') { e.preventDefault(); skip(-5); return; }
+                    if (key === 'ArrowRight') { e.preventDefault(); skip(5); return; }
+                }
+                
+                if (focused && focused.closest('#player-bar')) {
+                    const playerButtons = Array.from(document.querySelectorAll('#player-bar .focusable'));
+                    const currentIdx = playerButtons.indexOf(focused);
+                    
+                    if (key === 'ArrowLeft') {
+                        e.preventDefault();
+                        const nextIdx = currentIdx > 0 ? currentIdx - 1 : playerButtons.length - 1;
+                        playerButtons[nextIdx]?.focus();
+                        return;
+                    }
+                    if (key === 'ArrowRight') {
+                        e.preventDefault();
+                        const nextIdx = currentIdx < playerButtons.length - 1 ? currentIdx + 1 : 0;
+                        playerButtons[nextIdx]?.focus();
+                        return;
+                    }
+                }
+                
+                setTimeout(() => {
+                    const active = document.activeElement;
+                    if (active && active.classList.contains('focusable')) {
+                        active.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 50);
+            }
+            
+            if (key === 'Enter') {
+                const focused = document.activeElement;
+                if (focused && focused.classList.contains('focusable')) {
+                    e.preventDefault();
+                    focused.click();
+                }
+            }
+        });
+        
+        const observer = new MutationObserver(() => {
+            makeAllFocusable();
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+    }
+    
+    function getRecitationBadgeClass(recitation) { switch(recitation) { case 'حفص': return 'recitation-hafs'; case 'ورش': return 'recitation-warsh'; case 'قالون': return 'recitation-qaloon'; default: return 'recitation-hafs'; } }
+    function getRecitationHTML(recitation, recitationName) { const badgeClass = getRecitationBadgeClass(recitation); let icon = recitation === 'حفص' ? '🟢' : (recitation === 'ورش' ? '🟠' : (recitation === 'قالون' ? '🔵' : '📖')); return `<span class="recitation-badge ${badgeClass}">${icon} ${recitationName || recitation}</span>`; }
+    
+    function filterRecitersByRecitation(recitation) {
+        currentRecitationFilter = recitation;
+        document.querySelectorAll('.recitation-filter-btn').forEach(btn => { btn.classList.remove('active', 'bg-emerald-500/10', 'text-emerald-400'); btn.classList.add('bg-slate-800', 'text-slate-300'); });
+        let activeBtnId = recitation === 'all' ? 'filter-all' : (recitation === 'حفص' ? 'filter-hafs' : (recitation === 'ورش' ? 'filter-warsh' : 'filter-qaloon'));
+        const activeBtn = document.getElementById(activeBtnId);
+        if(activeBtn) { activeBtn.classList.remove('bg-slate-800', 'text-slate-300'); activeBtn.classList.add('active', 'bg-emerald-500/10', 'text-emerald-400'); }
+        renderReciters();
+        showToast(recitation === 'all' ? '📖 عرض جميع القراء' : (recitation === 'حفص' ? '🟢 عرض قراء رواية حفص' : (recitation === 'ورش' ? '🟠 عرض قراء رواية ورش' : '🔵 عرض قراء رواية قالون')));
+    }
+    
+    function renderReciters() { 
+        let filtered = currentRecitationFilter === 'all' ? reciters : reciters.filter(r => r.recitation === currentRecitationFilter);
+        const card = (r) => `<button onclick="selectQari(${r.id})" class="focusable bg-slate-800/40 p-5 rounded-3xl text-center border-2 border-white/5 group transition-all"><img src="${r.img}" class="w-full aspect-square object-cover rounded-2xl mb-4 shadow-lg" onerror="this.onerror=null; this.src='${fallbackImage}'" alt="${r.name}"><h4 class="font-bold text-lg truncate">${r.name}</h4><div class="mt-3">${getRecitationHTML(r.recitation, r.recitationName)}</div></button>`;
+        document.getElementById('featured-grid').innerHTML = filtered.slice(0,6).map(card).join('');
+        document.getElementById('all-reciters-grid').innerHTML = filtered.map(card).join('');
+        makeAllFocusable();
+    }
+    
+    function selectQari(id) { 
+        currentQari = reciters.find(r => r.id === id); 
+        backStack.push({ type: 'qari', id });
+        showSection('qari-details'); 
+        document.getElementById('qari-header-name').innerHTML = currentQari.name;
+        const headerImg = document.getElementById('qari-header-img');
+        headerImg.onerror = function() { this.onerror = null; this.src = fallbackImage; };
+        headerImg.src = currentQari.img;
+        document.getElementById('qari-header-recitation').innerHTML = getRecitationHTML(currentQari.recitation, currentQari.recitationName);
+        document.getElementById('surahs-audio-list').innerHTML = allSurahs.map(s => `<button onclick="playAudio(${s.number}, '${s.name}')" class="focusable p-6 bg-slate-800/20 rounded-2xl border-2 border-white/5 flex justify-between items-center group transition-all"><div class="flex items-center gap-5"><div class="ayah-num-icon">${s.number}</div><span class="font-quran text-2xl font-bold">${s.name}</span></div><div class="w-14 h-14 bg-emerald-500/10 rounded-full flex items-center justify-center"><i data-lucide="play" class="w-6 h-6 text-emerald-400"></i></div></button>`).join('');
+        lucide.createIcons(); makeAllFocusable(); 
+    }
+    
+    async function fetchSurahs() { try { const res = await fetch('https://api.alquran.cloud/v1/surah'); const data = await res.json(); allSurahs = data.data; renderMushaf(); } catch(e) { console.error(e); } }
+    function renderMushaf() { document.getElementById('mushaf-list-grid').innerHTML = allSurahs.map(s => `<button onclick="openReading(${s.number}, '${s.name}')" class="focusable p-6 bg-slate-800/30 rounded-2xl flex justify-between items-center border-2 border-white/5 transition-all"><div class="flex items-center gap-5"><div class="surah-badge">${s.number}</div><h4 class="font-bold font-quran text-2xl">${s.name}</h4></div><i data-lucide="book-open" class="text-emerald-500 w-7 h-7"></i></button>`).join(''); lucide.createIcons(); makeAllFocusable(); }
+    
+    function playAudio(id, name) { 
+        if(!currentQari) currentQari = reciters[0];
+        currentSurahId = id; isPlayingAudio = true; 
+        togglePlayer(true);
+        document.getElementById('p-s-name').innerText = "سورة " + name;
+        document.getElementById('p-q-name').innerHTML = `${currentQari.name} <span class="text-emerald-500">— ${currentQari.recitationName}</span>`;
+        
+        const playerImg = document.getElementById('p-img');
+        playerImg.onerror = function() { this.onerror = null; this.src = fallbackImage; };
+        playerImg.src = currentQari.img;
+        
+        document.getElementById('p-surah-id').innerText = id;
+        audio.src = `${currentQari.server}${id.toString().padStart(3, '0')}.mp3`;
+        
+        // ✅ تحديث MediaSession metadata قبل التشغيل
+        updateMediaSessionMetadata();
+        
+        audio.play().catch(e => console.log("Audio error:", e)); 
+        updatePlayIcon(true); 
+        
+        // ✅ إعادة تسجيل معالجات MediaSession عند كل تغيير سورة
+        registerMediaSessionHandlers();
+        
+        setTimeout(() => document.getElementById('play-btn')?.focus(), 500);
+    }
+    
+    function changeSurah(dir) { 
+        let nextId = currentSurahId + dir; 
+        if(nextId < 1) nextId = 114; 
+        if(nextId > 114) nextId = 1; 
+        const nextSurah = allSurahs.find(s => s.number === nextId); 
+        if(nextSurah) playAudio(nextId, nextSurah.name); 
+    }
+    
+    function goHome() { backStack = []; showSection('home'); }
+    
+    function showSection(id) { 
+        currentActiveSection = id; 
+        document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden')); 
+        document.getElementById(id + '-sec').classList.remove('hidden'); 
+        document.getElementById('scroll-area').scrollTo(0,0); 
+        toggleSidebar(false); 
+        makeAllFocusable(); 
+    }
+    
+    async function openReading(id, name) { 
+        backStack.push({ type: 'reading', id, name });
+        showSection('reading'); 
+        document.getElementById('reading-s-name').innerText = "سورة " + name; 
+        const box = document.getElementById('reading-content'); 
+        box.innerHTML = `<div class="py-20 animate-pulse text-emerald-500 text-2xl">جاري تحميل الآيات...</div>`; 
+        try { 
+            const res = await fetch(`https://api.alquran.cloud/v1/surah/${id}`); 
+            const data = await res.json(); 
+            let html = (id !== 1 && id !== 9) ? `<div class="text-emerald-500/50 mb-12 font-bold text-3xl">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>` : ""; 
+            data.data.ayahs.forEach(a => { 
+                html += `<span class="selectable">${a.text}</span> <span class="ayah-num-icon mx-3">${a.numberInSurah}</span> `; 
+            }); 
+            box.innerHTML = html; 
+        } catch(e) { 
+            box.innerHTML = "حدث خطأ في التحميل"; 
+        } 
+        makeAllFocusable(); 
+    }
+    
+    function setupAudioEvents() { 
+        audio.ontimeupdate = () => { 
+            const p = (audio.currentTime / audio.duration) * 100 || 0; 
+            document.getElementById('p-bar').style.width = p + '%'; 
+            document.getElementById('p-curr').innerText = formatTime(audio.currentTime); 
+            if(audio.duration) document.getElementById('p-total').innerText = formatTime(audio.duration);
+            
+            // ✅ تحديث موضع التشغيل في MediaSession (مهم جداً لشريط التقدم في الإشعار)
+            if ('mediaSession' in navigator && audio.duration && isFinite(audio.duration)) {
+                try {
+                    navigator.mediaSession.setPositionState({
+                        duration: audio.duration,
+                        playbackRate: audio.playbackRate,
+                        position: Math.min(audio.currentTime, audio.duration)
+                    });
+                } catch(e) { /* تجاهل الأخطاء */ }
+            }
+        }; 
+        
+        audio.onended = () => changeSurah(1); 
+        audio.onerror = () => { showToast("⚠️ خطأ في تحميل الصوت"); };
+        
+        // ✅ مزامنة الأيقونة مع حالة التشغيل الفعلية
+        audio.onplay = () => { 
+            updatePlayIcon(true); 
+            updateMediaSessionPlaybackState(); 
+        };
+        audio.onpause = () => { 
+            updatePlayIcon(false); 
+            updateMediaSessionPlaybackState(); 
+        };
+        audio.onloadedmetadata = () => {
+            // ✅ تحديث الموضع عند تحميل البيانات الوصفية
+            if ('mediaSession' in navigator && audio.duration && isFinite(audio.duration)) {
+                try {
+                    navigator.mediaSession.setPositionState({
+                        duration: audio.duration,
+                        playbackRate: audio.playbackRate,
+                        position: 0
+                    });
+                } catch(e) {}
+            }
+        };
+    }
+    
+    function togglePlay() { 
+        if(audio.paused) { 
+            audio.play().catch(e => console.log(e)); 
+        } else { 
+            audio.pause(); 
+        } 
+    }
+    
+    function updatePlayIcon(playing) { 
+        const btn = document.getElementById('play-icon'); 
+        if(btn) {
+            btn.parentElement.innerHTML = `<i data-lucide="${playing ? 'pause' : 'play'}" id="play-icon" class="fill-current w-12 h-12"></i>`; 
+            lucide.createIcons(); 
+        }
+    }
+    
+    function togglePlayer(show) { 
+        const playerBar = document.getElementById('player-bar');
+        const reopenBtn = document.getElementById('player-reopen-btn');
+        
+        playerBar.classList.toggle('translate-y-full', !show); 
+        makeAllFocusable();
+        
+        if(show) {
+            reopenBtn.classList.remove('show');
+            setTimeout(() => document.getElementById('play-btn')?.focus(), 400);
+        } else {
+            if(isPlayingAudio || currentQari) {
+                reopenBtn.classList.add('show');
+            }
+        }
+    }
+    
+    // ============================================================
+    // ✅ إصلاح MediaSession - الجزء الأهم لحل مشكلة زر التشغيل/الإيقاف
+    // ============================================================
+    
+    function setupMediaSession() { 
+        if (!('mediaSession' in navigator)) {
+            console.warn('MediaSession API غير مدعوم في هذا المتصفح');
+            return;
+        }
+        
+        registerMediaSessionHandlers();
+        updateMediaSessionPlaybackState();
+    }
+    
+    // ✅ إعادة تسجيل جميع معالجات MediaSession
+    function registerMediaSessionHandlers() {
+        if (!('mediaSession' in navigator)) return;
+        
+        // زر التشغيل
+        try {
+            navigator.mediaSession.setActionHandler('play', () => {
+                console.log('MediaSession: play');
+                if (audio.paused) {
+                    audio.play().catch(e => console.log('play error:', e));
+                }
+            });
+        } catch(e) { console.log('play handler error:', e); }
+        
+        // زر الإيقاف المؤقت
+        try {
+            navigator.mediaSession.setActionHandler('pause', () => {
+                console.log('MediaSession: pause');
+                if (!audio.paused) {
+                    audio.pause();
+                }
+            });
+        } catch(e) { console.log('pause handler error:', e); }
+        
+        // ✅ زر التشغيل/الإيقاف الموحّد (مهم لبعض الأجهزة)
+        try {
+            navigator.mediaSession.setActionHandler('stop', () => {
+                console.log('MediaSession: stop');
+                audio.pause();
+                audio.currentTime = 0;
+            });
+        } catch(e) {}
+        
+        // السورة السابقة
+        try {
+            navigator.mediaSession.setActionHandler('previoustrack', () => {
+                console.log('MediaSession: previoustrack');
+                changeSurah(-1);
+            });
+        } catch(e) {}
+        
+        // السورة التالية
+        try {
+            navigator.mediaSession.setActionHandler('nexttrack', () => {
+                console.log('MediaSession: nexttrack');
+                changeSurah(1);
+            });
+        } catch(e) {}
+        
+        // ✅ تراجع 10 ثوان
+        try {
+            navigator.mediaSession.setActionHandler('seekbackward', (details) => {
+                const offset = details.seekOffset || 10;
+                audio.currentTime = Math.max(0, audio.currentTime - offset);
+            });
+        } catch(e) {}
+        
+        // ✅ تقدم 10 ثوان
+        try {
+            navigator.mediaSession.setActionHandler('seekforward', (details) => {
+                const offset = details.seekOffset || 10;
+                audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + offset);
+            });
+        } catch(e) {}
+        
+        // ✅ الانتقال إلى موضع معين (لمس شريط التقدم في الإشعار)
+        try {
+            navigator.mediaSession.setActionHandler('seekto', (details) => {
+                if (details.seekTime !== undefined && audio.duration) {
+                    audio.currentTime = Math.min(details.seekTime, audio.duration);
+                }
+            });
+        } catch(e) {}
+    }
+    
+    // ✅ تحديث metadata (المعلومات المعروضة في الإشعار)
+    function updateMediaSessionMetadata() {
+        if (!('mediaSession' in navigator)) return;
+        const surah = allSurahs.find(s => s.number === currentSurahId); 
+        navigator.mediaSession.metadata = new MediaMetadata({ 
+            title: surah ? surah.name : 'سورة', 
+            artist: currentQari ? `${currentQari.name} - ${currentQari.recitationName}` : 'القرآن الكريم', 
+            album: 'مصحف النور', 
+            artwork: [
+                { src: currentQari?.img || fallbackImage, sizes: '96x96', type: 'image/jpeg' },
+                { src: currentQari?.img || fallbackImage, sizes: '128x128', type: 'image/jpeg' },
+                { src: currentQari?.img || fallbackImage, sizes: '192x192', type: 'image/jpeg' },
+                { src: currentQari?.img || fallbackImage, sizes: '256x256', type: 'image/jpeg' },
+                { src: currentQari?.img || fallbackImage, sizes: '384x384', type: 'image/jpeg' },
+                { src: currentQari?.img || fallbackImage, sizes: '512x512', type: 'image/jpeg' }
+            ]
+        }); 
+    }
+    
+    // ✅ تحديث حالة التشغيل في MediaSession (مهم جداً)
+    function updateMediaSessionPlaybackState() {
+        if (!('mediaSession' in navigator)) return;
+        navigator.mediaSession.playbackState = audio.paused ? 'paused' : 'playing';
+    }
+    
+    // دالة متوافقة مع الكود القديم
+    function updateMediaSession() {
+        updateMediaSessionMetadata();
+        updateMediaSessionPlaybackState();
+    }
+    
+    // ============================================================
+    
+    function handleSearchInput(val) { 
+        const q = val.trim().toLowerCase(); 
+        const results = document.getElementById('quick-search-results'); 
+        if(!q) { results.innerHTML = ''; return; } 
+        let html = ''; 
+        reciters.filter(r => r.name.includes(q) || r.recitationName.includes(q) || r.recitation.includes(q)).forEach(r => { 
+            html += `<button onclick="selectQari(${r.id}); closeSearchModal();" class="focusable w-full p-5 bg-slate-800 rounded-2xl flex items-center gap-5 text-right transition-all"><img src="${r.img}" class="w-14 h-14 rounded-full object-cover" onerror="this.onerror=null; this.src='${fallbackImage}'"><div><div class="font-bold text-lg">${r.name}</div><div class="text-sm text-emerald-400">${r.recitationName}</div></div></button>`; 
+        }); 
+        allSurahs.filter(s => s.name.includes(q) || s.number == q).forEach(s => { 
+            html += `<button onclick="openReading(${s.number}, '${s.name}'); closeSearchModal();" class="focusable w-full p-5 bg-slate-800 rounded-2xl flex justify-between items-center text-right transition-all"><span class="font-quran text-xl">سورة ${s.name}</span><div class="ayah-num-icon w-10 h-10 text-sm">${s.number}</div></button>`; 
+        }); 
+        if(!html) html = `<div class="text-center p-10"><p class="text-slate-500 text-lg">لا توجد نتائج مطابقة</p></div>`; 
+        results.innerHTML = html; 
+        lucide.createIcons(); 
+        makeAllFocusable(); 
+    }
+    
+    function makeAllFocusable() { 
+        document.querySelectorAll('button, [onclick], [role="button"], .cursor-pointer, #progress-container').forEach(el => { 
+            if(!el.classList.contains('focusable')) el.classList.add('focusable'); 
+            if(el.id !== 'progress-container') el.setAttribute('tabindex', '0'); 
+        }); 
+    }
+    
+    function showToast(message) { 
+        const existingToast = document.querySelector('.toast-message'); 
+        if(existingToast) existingToast.remove(); 
+        const toast = document.createElement('div'); 
+        toast.className = 'toast-message'; 
+        toast.textContent = message; 
+        document.body.appendChild(toast); 
+        setTimeout(() => toast.remove(), 2500); 
+    }
+    
+    function setupBackButtonHandler() { 
+        window.addEventListener('popstate', (e) => { 
+            e.preventDefault(); 
+            handleBackPress(); 
+        }); 
+        window.history.pushState({ page: 'initial' }, ''); 
+    }
+    
+    function handleBackPress() {
+        const searchModal = document.getElementById('search-modal');
+        if(!searchModal.classList.contains('hidden')) { closeSearchModal(); showToast("🔍 تم إغلاق البحث"); return; }
+        const sidebar = document.getElementById('sidebar');
+        if(!sidebar.classList.contains('translate-x-full')) { toggleSidebar(false); showToast("📖 تم إغلاق القائمة"); return; }
+        const playerBar = document.getElementById('player-bar');
+        if(!playerBar.classList.contains('translate-y-full')) { togglePlayer(false); showToast("🎵 تم إخفاء المشغل"); return; }
+        if(backStack.length > 0) {
+            const last = backStack.pop();
+            if(last.type === 'qari') showSection('reciters');
+            else if(last.type === 'reading') showSection('mushaf');
+            else showSection('home');
+            showToast("↩️ تم الرجوع");
+            return;
+        }
+        if(currentActiveSection !== 'home') { goHome(); showToast("🏠 العودة للرئيسية"); return; }
+        backPressCount++;
+        if(backPressCount === 1) { showToast("⚠️ اضغط مرتين للخروج"); backPressTimer = setTimeout(() => { backPressCount = 0; backPressTimer = null; }, 2000); return; }
+        if(backPressCount >= 2) {
+            if(backPressTimer) clearTimeout(backPressTimer);
+            showToast("📱 جاري الإغلاق...");
+            setTimeout(() => { window.close(); if(navigator.userAgent.includes("Chrome")) window.location.href = "about:blank"; }, 100);
+            backPressCount = 0;
+        }
+    }
+    
+    function openSearchModal() { 
+        document.getElementById('search-overlay').classList.remove('hidden'); 
+        document.getElementById('search-modal').classList.remove('hidden'); 
+        document.getElementById('main-search').value = ""; 
+        document.getElementById('quick-search-results').innerHTML = ""; 
+        setTimeout(() => document.getElementById('main-search').focus(), 200); 
+    }
+    
+    function closeSearchModal() { 
+        document.getElementById('search-overlay').classList.add('hidden'); 
+        document.getElementById('search-modal').classList.add('hidden'); 
+    }
+    
+    function toggleSidebar(open) { 
+        document.getElementById('sidebar').classList.toggle('translate-x-full', !open); 
+        document.getElementById('sidebar-overlay').classList.toggle('hidden', !open); 
+        makeAllFocusable();
+        if(open) setTimeout(() => document.querySelector('#sidebar button')?.focus(), 300);
+    }
+    
+    function formatTime(s) { 
+        if(isNaN(s) || !isFinite(s)) return "00:00";
+        const m = Math.floor(s/60); 
+        const sec = Math.floor(s%60); 
+        return `${m}:${sec.toString().padStart(2, '0')}`; 
+    }
+    
+    function skip(v) { 
+        if(audio.duration && isFinite(audio.duration)) {
+            audio.currentTime = Math.max(0, Math.min(audio.duration, audio.currentTime + v)); 
+        }
+    }
+    
+    function seek(e) { 
+        if(!audio.duration) return;
+        const rect = e.currentTarget.getBoundingClientRect(); 
+        const x = (e.clientX !== undefined ? e.clientX : rect.left + rect.width / 2) - rect.left;
+        audio.currentTime = Math.max(0, Math.min(1, x / rect.width)) * audio.duration; 
+    }
+</script>
+</body>
+</html>
